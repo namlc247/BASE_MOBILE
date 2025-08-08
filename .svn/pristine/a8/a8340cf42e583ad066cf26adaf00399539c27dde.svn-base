@@ -1,0 +1,102 @@
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  SafeAreaView,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  ScrollView,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import Layout from "../components/Layout";
+import tw from "twrnc";
+import { Card, DataTable } from 'react-native-paper';
+
+import CalendarUtils from "../utils/calendarUtils";
+import IconButton from "../components/button/IconButton";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { GuidePropertyService } from "../services/appService/guideproperty";
+import { QlSinhvienService, SearchQlSinhvienRequest } from "../services/appService/qlsinhvien";
+import { useUser } from "../contexts/UserContext";
+
+export default function Account() {
+  const { userDetail, listImageGlobal } = useUser();
+  const [isLoading, setIsLoading] = React.useState<any>(false);
+
+
+  React.useEffect(() => {
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+
+    }, [])
+  );
+
+
+  return (
+    <Layout isLoading={isLoading}>
+      <View style={tw`h-full flex-col p-2 gap-2`}>
+        <View style={tw`flex-row gap-2`}>
+
+          <Card style={tw`bg-white flex-1 max-h-full`}>
+            <Card.Content style={tw`p-3 px-4 max-h-full`}>
+              <View style={tw`flex-row gap-4`}>
+                <View>
+                  <Image
+                    source={listImageGlobal[userDetail?.image] ?? require('../accsets/avatarDefault.jpg')}
+                    style={tw`w-10 h-10 rounded-full  border border-gray-200 mt-1`}
+                  />
+                </View>
+
+                <View style={tw`flex-1 flex-col gap-1`}>
+                  <Text style={tw`text-base font-bold uppercase text-[#444]`}>
+                    {userDetail?.fullname}
+                  </Text>
+                  <Text style={tw`text-[#444]`}>
+                    Mã sinh viên: 178205
+                  </Text>
+                  <Text style={tw`text-[#444]`}>
+                    Niên khóa: 2025 - 2029
+                  </Text>
+                  <Text style={tw`text-[#444]`}>
+                    Học kỳ I <Text style={tw`text-[#339933]`}>(Đã thanh toán học phí)</Text>
+                  </Text>
+                </View>
+              </View>
+            </Card.Content>
+          </Card>
+
+        </View>
+
+        <View style={tw`flex-1`}>
+          <Card style={tw`bg-white max-h-full`}>
+            <Card.Content style={tw`p-3 px-4 max-h-full`}>
+              <View style={tw`flex-row gap-4`}>
+                <ScrollView
+                  style={tw`max-h-full`}
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  showsHorizontalScrollIndicator={false}
+                  persistentScrollbar={true}
+                >
+                </ScrollView>
+              </View>
+            </Card.Content>
+          </Card>
+        </View>
+      </View>
+    </Layout>
+  );
+}
+
+const renderHeaderItem = (text: string, style: string) => (
+  <DataTable.Title style={tw`flex-row justify-center items-center ${style}`}>
+    <Text style={tw`text-[#000] font-medium uppercase`}>{text}</Text>
+  </DataTable.Title>
+);

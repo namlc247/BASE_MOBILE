@@ -1,0 +1,27 @@
+export * from './qlsinhvien.service';
+export class SearchQlSinhvienRequest {
+	gid?: number;
+	stt?: number;
+	fullname?: string;
+	pageIndex: number;
+	pageSize: number;
+	constructor(page: number, pageSize: number) {
+		this.gid = 0;
+		this.stt = 0;
+		this.fullname = '';
+		this.pageIndex = page;
+		this.pageSize = pageSize;
+	}
+}
+
+export class QlSinhvienDetail {
+	gid?: number;
+	stt?: number;
+	fullname?: string;
+}
+
+export class QlSinhvienRequest {
+	gid?: number;
+	stt?: number;
+	fullname?: string;
+}

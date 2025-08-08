@@ -1,0 +1,76 @@
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import { useAuthStore } from "../stores/authStore";
+import { UserProvider } from "../contexts/UserContext";
+import Toast from 'react-native-toast-message';
+import MyToastUtils from "../utils/toastConfig";
+import { WebSocketProvider } from "../contexts/WebSocketProvider";
+import { NewsfeedProvider } from "../contexts/NewsfeedContext";
+import { IntervalProvider } from "../contexts/IntervalProvider";
+import { DialogConfirmProvider } from "../contexts/DialogConfirmContext";
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import QlSinhVien from "../screens/QlSinhVien";
+import Login from "../screens/Login";
+import Account from "../screens/Account";
+import COLORS from "../constants/colors";
+
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: COLORS.primary
+  },
+};
+
+export type RootStackParamList = {
+  Calendar: { main_id: number };
+  Calendar_TT_Donvi: { main_id: number };
+  Calendar_TT_Donvi_Duyetlich: { main_id: number };
+  Notifications: { main_id: number };
+  Meeting: { id_cuochopgiaoban: number };
+  PhongHop: { khp_gid: number };
+};
+
+const Stack = createNativeStackNavigator();
+
+const ProtectedRoutes = () => (
+  <UserProvider>
+    <WebSocketProvider>
+      <NewsfeedProvider>
+        <IntervalProvider>
+          <PaperProvider theme={theme}>
+            <DialogConfirmProvider>
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Account" component={Account} />
+                <Stack.Screen name="QlSinhVien" component={QlSinhVien} />
+              </Stack.Navigator>
+            </DialogConfirmProvider>
+          </PaperProvider>
+        </IntervalProvider>
+      </NewsfeedProvider>
+    </WebSocketProvider>
+  </UserProvider>
+);
+
+const PublicRoutes = () => (
+  <PaperProvider theme={theme}>
+    <DialogConfirmProvider>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </DialogConfirmProvider>
+  </PaperProvider>
+);
+
+export const AppNavigator = () => {
+  const { token, isLoading } = useAuthStore();
+
+  return (
+    <NavigationContainer>
+      {token && !isLoading ? <ProtectedRoutes /> : <PublicRoutes />}
+      <Toast config={MyToastUtils.toastConfig} visibilityTime={3000} />
+    </NavigationContainer>
+  );
+};

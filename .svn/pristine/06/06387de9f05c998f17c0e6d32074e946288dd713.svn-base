@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="424af1f6-2437-4c35-ad57-8287e9b0e788" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/%ProgramData%/Microsoft/Windows/UUS/State/_active.uusver" beforeDir="false" afterPath="$PROJECT_DIR$/%ProgramData%/Microsoft/Windows/UUS/State/_active.uusver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/patches/@unimodules+core+7.1.2.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/patches/expo-random+14.0.1.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AudioTest.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AudioTest.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ComposeNotificationModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ComposeNotificationModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PdfViewerComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PdfViewerComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/chat-message/ChatMessageItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/chat-message/ChatMessageItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/commentTreeV2/CommentTreeV2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/commentTreeV2/CommentTreeV2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/NewsfeedContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/NewsfeedContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/UserContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/UserContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/WebSocketProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/WebSocketProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useChat.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useChat.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/images.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Calendar_TT_Donvi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Calendar_TT_Donvi.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Calendar_TT_Donvi_Duyetlich.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Calendar_TT_Donvi_Duyetlich.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Chat.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Chat.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Notifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Notifications.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Phonghop.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Phonghop.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/WebSocketService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/WebSocketService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/axios.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="30DYHtGkx33i2YESGIIAwhaW1Vs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/namlc/Documents/WORK/PROJECT/mobile_signal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="424af1f6-2437-4c35-ad57-8287e9b0e788" name="Changes" comment="" />
+      <created>1753163525225</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753163525225</updated>
+    </task>
+    <servers />
+  </component>
+</project>

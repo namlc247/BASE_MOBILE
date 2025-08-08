@@ -1,0 +1,9 @@
+import ColorUtil from '../utils/colorUtil';
+
+const COLORS = {
+	primary: '#005f37',
+	backgroundColorInput: '#fdfdfd',
+	backgroundColorPrimary: '#005f37',
+};
+
+export default COLORS;

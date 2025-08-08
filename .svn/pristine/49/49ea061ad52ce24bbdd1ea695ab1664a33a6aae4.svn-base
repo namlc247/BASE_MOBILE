@@ -1,0 +1,123 @@
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  SafeAreaView,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  ScrollView,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import Layout from "../components/Layout";
+import tw from "twrnc";
+import { Card, DataTable } from 'react-native-paper';
+
+import CalendarUtils from "../utils/calendarUtils";
+import IconButton from "../components/button/IconButton";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { GuidePropertyService } from "../services/appService/guideproperty";
+import { QlSinhvienService, SearchQlSinhvienRequest } from "../services/appService/qlsinhvien";
+
+export default function QlSinhVien() {
+  const [page, setPage] = React.useState<number>(0);
+  const [isLoading, setIsLoading] = React.useState<any>(false);
+  const [listData, setListData] = React.useState<any[]>([]);
+  const [totalItem, setTotalItem] = React.useState<number>(0);
+  const [itemsPerPage, onItemsPerPageChange] = React.useState(
+    10
+  );
+
+
+  const qlSinhvienService = QlSinhvienService.getInstance();
+  const guidePropertyService = GuidePropertyService.getInstance();
+
+  type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+  const navigation = useNavigation<NavigationProp>();
+
+  React.useEffect(() => {
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadListObjs(page);
+    }, [page])
+  );
+
+  const loadListObjs = async (page: number) => {
+    setIsLoading(true);
+    const request = new SearchQlSinhvienRequest(page, itemsPerPage);
+    const response = await qlSinhvienService.searchLists(request);
+
+    if (response?.data?.result?.code == "00") {
+      setListData(response?.data?.lstQlSinhvien ?? []);
+      setTotalItem(response?.data?.totalItems);
+    }
+    setIsLoading(false);
+  };
+
+  return (
+    <Layout isLoading={isLoading}>
+      <View style={tw`max-h-full flex-col p-2 gap-2`}>
+        <View style={tw`max-h-full flex-row gap-2`}>
+          {/* Tiến trình cuộc họp */}
+          <Card style={tw`bg-white flex-1 max-h-full`}>
+            <Card.Content style={tw`p-3 max-h-full`}>
+              <ScrollView
+                style={tw`max-h-full`}
+                nestedScrollEnabled={true}
+                showsVerticalScrollIndicator={true}
+                showsHorizontalScrollIndicator={false}
+                persistentScrollbar={true}
+              >
+                <DataTable style={tw``}>
+                  <DataTable.Header style={tw`bg-[#e7effc]`}>
+                    {renderHeaderItem('STT', 'flex-1')}
+                    {renderHeaderItem('Họ và tên', 'flex-4')}
+                  </DataTable.Header>
+
+                  {listData.map((item, index) => (
+                    <DataTable.Row key={item.gid} style={tw`py-1 ${index % 2 != 0 ? 'bg-[#f7f7f7]' : ''}`}>
+                      <DataTable.Cell style={tw`flex-1`}>
+                        <Text style={tw`flex-1 text-center`}>
+                          {item.stt}
+                        </Text>
+                      </DataTable.Cell>
+                      <DataTable.Cell style={tw`flex-4`}>
+                        <Text style={tw`flex-1 text-center`}>
+                          {item.fullname}
+                        </Text>
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+
+                  <View style={tw`mt-3`}>
+                    <DataTable.Pagination
+                      page={page}
+                      numberOfPages={Math.ceil(totalItem / itemsPerPage)}
+                      onPageChange={(page) => setPage(page)}
+                      label={`Số bản ghi trên trang ${itemsPerPage} \t\t\t ${(page * itemsPerPage) + 1} - ${Math.min((page + 1) * itemsPerPage, listData?.length)} trong ${totalItem}`}
+                      numberOfItemsPerPage={itemsPerPage}
+                      showFastPaginationControls
+                    />
+                  </View>
+                </DataTable>
+              </ScrollView>
+            </Card.Content>
+          </Card>
+
+        </View>
+      </View>
+    </Layout>
+  );
+}
+
+const renderHeaderItem = (text: string, style: string) => (
+  <DataTable.Title style={tw`flex-row justify-center items-center ${style}`}>
+    <Text style={tw`text-[#000] font-medium uppercase`}>{text}</Text>
+  </DataTable.Title>
+);

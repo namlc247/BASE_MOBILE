@@ -1,0 +1,43 @@
+import axios, { AxiosError } from 'axios';
+import instance from '../../axios';
+
+import { BaseService } from '../baseService';
+import {
+	QlSinhvienDetail,
+	QlSinhvienRequest,
+	SearchQlSinhvienRequest,
+} from '.';
+
+export class QlSinhvienService extends BaseService {
+	private static instance: QlSinhvienService;
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): QlSinhvienService {
+		if (!QlSinhvienService.instance) {
+			QlSinhvienService.instance = new QlSinhvienService();
+		}
+		return QlSinhvienService.instance;
+	}
+
+	getListObjs() {
+		return this.postData('/qlsinhvien/data', null);
+	}
+	searchLists(data: SearchQlSinhvienRequest) {
+		return this.postData('/qlsinhvien/search', data);
+	}
+
+	createObj(item: QlSinhvienDetail) {
+		return this.postData('/qlsinhvien/insert', item);
+	}
+
+	deleteObj(itemId: number) {
+		return this.postData('/qlsinhvien/delete', { gid: itemId });
+	}
+
+	updateObj(item: QlSinhvienRequest) {
+		return this.postData('/qlsinhvien/update', item);
+	}
+}

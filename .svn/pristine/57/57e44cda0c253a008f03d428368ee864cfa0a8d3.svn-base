@@ -1,0 +1,65 @@
+import React from 'react';
+import { View, Image, GestureResponderEvent } from 'react-native';
+import { Tooltip, TouchableRipple } from 'react-native-paper';
+import tw from 'twrnc';
+
+import { BottomNavigation, Text } from 'react-native-paper';
+import ActionButton from './button/ActionButton';
+import { useRoute } from '@react-navigation/native';
+
+interface BottomBarProps {
+  toggleMenu: (navigationTo: string) => void;
+}
+
+const BottomBar = React.memo(({
+  toggleMenu
+}: BottomBarProps) => {
+  const route = useRoute();
+
+  return (
+    <View style={tw`flex-row items-center`}>
+      <View style={tw`flex-1`}>
+        <ActionButton
+          icon={'House'}
+          text="Trang chủ"
+          isHightlight={route.name === 'Account'}
+          onPress={() => {
+            toggleMenu('Account');
+          }}
+        />
+      </View>
+      <View style={tw`flex-1`}>
+        <ActionButton
+          icon={'CreditCard'}
+          text="Học phí"
+          isHightlight={false}
+          onPress={() => {
+
+          }}
+        />
+      </View>
+      <View style={tw`flex-1`}>
+        <ActionButton
+          icon={'CalendarDays'}
+          text="Lịch học"
+          isHightlight={false}
+          onPress={() => {
+
+          }}
+        />
+      </View>
+      <View style={tw`flex-1`}>
+        <ActionButton
+          icon={'Settings'}
+          text="Cài đặt"
+          isHightlight={false}
+          onPress={() => {
+
+          }}
+        />
+      </View>
+    </View>
+  );
+});
+
+export default BottomBar;

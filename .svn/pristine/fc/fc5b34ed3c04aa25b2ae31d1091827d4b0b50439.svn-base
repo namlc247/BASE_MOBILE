@@ -1,0 +1,14 @@
+# React Native (frontend)
+node_modules/
+ios/Pods/
+*.log
+*.lock
+*.xcworkspace
+build/
+*.iml
+.expo/
+
+# General OS and IDE files
+.DS_Store
+.idea/
+.vscode/

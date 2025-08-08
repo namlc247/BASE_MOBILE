@@ -1,0 +1,25 @@
+import * as LucideIcons from "lucide-react-native";
+import React from "react";
+
+type Props = {
+  icon: keyof typeof LucideIcons; // Tên icon
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+};
+
+export const LucideIcon: React.FC<Props> = ({
+  icon,
+  size = 24,
+  color = '#666666',
+  strokeWidth = 2,
+}) => {
+  const IconLucide = LucideIcons[icon] as React.ComponentType<any>;
+
+  if (!IconLucide) {
+    console.warn(`Icon ${icon} not found in lucide-react-native`);
+    return null;
+  }
+
+  return <IconLucide size={size} color={color} strokeWidth={strokeWidth} />;
+};

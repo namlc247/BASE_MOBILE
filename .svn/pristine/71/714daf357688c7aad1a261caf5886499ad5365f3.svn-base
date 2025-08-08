@@ -1,0 +1,113 @@
+import React from 'react';
+import { ReturnKeyTypeOptions, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import COLORS from '../../constants/colors';
+
+type TextInputPaperProps = {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  style?: StyleProp<TextStyle>;
+  mode?: 'flat' | 'outlined';
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  disabled?: boolean;
+  placeholder?: string;
+  error?: boolean;
+  selectionColor?: string;
+  underlineColor?: string;
+  activeUnderlineColor?: string;
+  outlineColor?: string;
+  activeOutlineColor?: string;
+  textColor?: string;
+  dense?: boolean;
+  multiline?: boolean;
+  onFocus?: (args: any) => void;
+  onBlur?: (args: any) => void;
+  editable?: boolean;
+  ref?: any;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
+  returnKeyType?: ReturnKeyTypeOptions;
+  blurOnSubmit?: boolean | undefined;
+  onSubmitEditing?: () => void;
+  secureTextEntry?: boolean;
+  outlineStyle?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<TextStyle>;
+  underlineStyle?: StyleProp<ViewStyle>;
+};
+
+const TextInputPaper: React.FC<TextInputPaperProps> = ({
+  label,
+  value,
+  onChangeText,
+  style,
+  mode = 'flat',
+  left,
+  right,
+  disabled = false,
+  placeholder,
+  error = false,
+  selectionColor,
+  underlineColor,
+  activeUnderlineColor,
+  outlineColor,
+  activeOutlineColor,
+  textColor,
+  dense = false,
+  multiline = false,
+  onFocus,
+  onBlur,
+  editable = true,
+  ref,
+  autoCapitalize = 'none',
+  returnKeyType,
+  blurOnSubmit,
+  onSubmitEditing,
+  secureTextEntry = false,
+  outlineStyle,
+  contentStyle,
+  underlineStyle,
+}) => {
+  return (
+    <TextInput
+      label={label}
+      value={value}
+      onChangeText={onChangeText}
+      style={[styles.defaultStyle, style]}
+      mode={mode}
+      left={left}
+      right={right}
+      disabled={disabled}
+      placeholder={placeholder}
+      error={error}
+      selectionColor={selectionColor}
+      underlineColor={underlineColor}
+      activeUnderlineColor={activeUnderlineColor}
+      outlineColor={outlineColor}
+      activeOutlineColor={activeOutlineColor}
+      textColor={textColor}
+      dense={dense}
+      multiline={multiline}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      editable={editable}
+      ref={ref}
+      autoCapitalize={autoCapitalize}
+      returnKeyType={returnKeyType}
+      blurOnSubmit={blurOnSubmit}
+      onSubmitEditing={onSubmitEditing}
+      secureTextEntry={secureTextEntry}
+      outlineStyle={outlineStyle}
+      contentStyle={contentStyle}
+      underlineStyle={underlineStyle}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  defaultStyle: {
+    backgroundColor: COLORS.backgroundColorInput,
+  },
+});
+
+export default TextInputPaper;

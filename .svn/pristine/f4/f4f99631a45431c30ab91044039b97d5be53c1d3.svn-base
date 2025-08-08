@@ -1,0 +1,340 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+  Image,
+  Alert,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  ScrollView,
+  StatusBar,
+} from "react-native";
+import logoApp from "../accsets/iconApp/logoApp.png";
+import { useAuthStore } from "../stores/authStore";
+import backGroundLogin from "../accsets/image/backGroundLogin.png";
+import manualIcon from "../accsets/icon/manual.png";
+import phoneIcon from "../accsets/icon/phone.png";
+import emailquansu from "../accsets/iconApp/emailquansu.jpg";
+import quanlyvanban from "../accsets/iconApp/quanlyvanban.jpg";
+import tw from "twrnc";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import instance from "../services/axios";
+import * as SecureStore from 'expo-secure-store';
+import LoadingModal from "../components/LoadingModal";
+import TextInputPaper from "../components/Input/TextInputPaper";
+import { Button, Checkbox, TextInput } from "react-native-paper";
+import { LucideIcon } from "../components/LucideIcon";
+import COLORS from "../constants/colors";
+import ColorUtil from "../utils/colorUtil";
+
+const Login: React.FC = () => {
+  const usernameRef = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const passwordRef = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [secure, setSecure] = useState(true);
+  const login = useAuthStore((state) => state.login);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const navigation = useNavigation();
+  const isSaveLoginInfo = SecureStore.getItemAsync('isSaveLoginInfo');
+  const [checkedRemember, setCheckedRemember] = React.useState(true);
+
+  const [ipServer, setIpServer] = useState<string | undefined>("");
+
+  React.useEffect(() => {
+    useAuthStore.getState().clearToken();
+
+    const getSaveLoginInfo = async () => {
+      const savedUserName = await SecureStore.getItemAsync('username');
+
+      if (savedUserName) {
+        setUsername(savedUserName);
+      }
+    };
+    getSaveLoginInfo();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setIpServer(instance.defaults.baseURL);
+    }, [])
+  );
+
+  const handleLogin = async () => {
+    if (!username || !password) {
+      Alert.alert("Lỗi", "Vui lòng nhập đầy đủ tài khoản và mật khẩu");
+      return;
+    }
+
+    await SecureStore.setItemAsync('ipServer', ipServer ?? "");
+    instance.defaults.baseURL = ipServer;
+
+    if (checkedRemember) {
+      await SecureStore.setItemAsync('username', username);
+    } else {
+      await SecureStore.deleteItemAsync('username');
+    }
+
+    await login(username, password);
+  };
+
+  const handleDownloadFile = () => {
+    // Xử lý tải hướng dẫn ở đây
+
+  };
+
+  return (
+    <ImageBackground
+      source={backGroundLogin}
+      style={styles.container}
+      imageStyle={styles.backgroundImage}
+    >
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.backgroundColorPrimary} />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <SafeAreaView style={styles.container}>
+            <View style={tw`flex-col h-full`}>
+              {/* PHẦN HEADER CỐ ĐỊNH */}
+              <View style={tw`flex-3.5 bg-transparent flex-row items-center justify-center`}>
+                <Image source={logoApp} style={styles.logo} />
+              </View>
+
+              {/* PHẦN SCROLL FORM */}
+              <View style={tw`flex-6.5 bg-white rounded-t-3xl`}>
+                <ScrollView
+                  contentContainerStyle={{ flexGrow: 1, padding: 18 }}
+                  keyboardShouldPersistTaps="handled"
+                  showsVerticalScrollIndicator={false}
+                >
+                  <View style={styles.card}>
+                    <View style={tw`flex-1`}>
+                      <View style={tw`mb-14 flex-row justify-center`}>
+                        <Text style={tw`font-500 text-2xl px-2 pb-2 border-b-2 border-[${COLORS.primary}]`}>Đăng nhập</Text>
+                      </View>
+
+                      <View style={styles.inputContainer}>
+                        <TextInputPaper
+                          label="Tài khoản"
+                          value={username}
+                          onChangeText={setUsername}
+                          autoCapitalize="none"
+                          returnKeyType="next"
+                          blurOnSubmit={false}
+                          right={
+                            <TextInput.Icon
+                              icon={() => (
+                                <LucideIcon icon="CircleUserRound" color="#666" size={22} strokeWidth={1.5} />
+                              )}
+                            />
+                          }
+                          onSubmitEditing={() => passwordRef.current?.focus()}
+                        />
+
+                        <TextInputPaper
+                          label="Mật khẩu"
+                          ref={passwordRef}
+                          value={password}
+                          onChangeText={setPassword}
+                          secureTextEntry={secure}
+                          autoCapitalize="none"
+                          returnKeyType="next"
+                          blurOnSubmit={false}
+                          right={
+                            <TextInput.Icon
+                              icon={() => (
+                                <LucideIcon icon={secure ? 'Lock' : 'LockOpen'} color="#666" size={22} strokeWidth={1.5} />
+                              )}
+                              onPress={() => setSecure(!secure)}
+                            />
+                          }
+                          onSubmitEditing={() => handleLogin()}
+                        />
+
+                        <TextInputPaper
+                          label="IP Server"
+                          value={ipServer ?? ''}
+                          onChangeText={setIpServer}
+                        />
+                      </View>
+
+                      <View style={tw`flex-row justify-between items-center mt-3`}>
+                        <TouchableOpacity
+                          style={tw`flex-row items-center`}
+                          onPress={() => setCheckedRemember(!checkedRemember)}
+                          activeOpacity={0.7} // tuỳ chọn để có hiệu ứng nhấn
+                        >
+                          <Checkbox
+                            status={checkedRemember ? 'checked' : 'unchecked'}
+
+                          />
+                          <Text style={tw`text-sm text-gray-500`}>Nhớ tài khoản</Text>
+                        </TouchableOpacity>
+                        <Text style={tw`text-sm text-gray-500`}>Quên mật khẩu?</Text>
+                      </View>
+
+                      <View style={tw`flex-row justify-center gap-3 mt-10`}>
+                        <Button
+                          style={tw`w-full`}
+                          buttonColor={ColorUtil.lightenColor(COLORS.primary, 0.95)}
+                          mode="elevated"
+                          onPress={handleLogin}
+                        >
+                          <Text style={tw`uppercase font-bold`}>Đăng nhập</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  </View>
+                </ScrollView>
+              </View>
+            </View>
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+
+      <LoadingModal visible={isLoading} />
+    </ImageBackground>
+
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.backgroundColorPrimary,
+  },
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover', // Đảm bảo hình ảnh phủ đầy màn hình
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  headerTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#a92722",
+    textAlign: "center",
+    marginVertical: 16,
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginTop: 0,
+  },
+  logo: {
+    width: 160,
+    height: 160,
+    resizeMode: "contain",
+  },
+  mainContent: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 16,
+  },
+  leftSection: {
+    flex: 1,
+    justifyContent: "center",
+    gap: 16,
+  },
+  rightSection: {
+    maxWidth: 900,
+    flex: 1,
+    justifyContent: "center",
+  },
+  actionButton: {
+    backgroundColor: "#3d72b4",
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  actionButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  card: {
+    height: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    // backgroundColor: "white",
+    // padding: 18,
+    // borderTopLeftRadius: 20,
+    // borderTopRightRadius: 20,
+
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#83888c",
+    marginBottom: 20,
+  },
+  inputContainer: {
+    gap: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#374151",
+    marginBottom: 8,
+  },
+  input: {
+    width: "100%",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "#d1d5db",
+    borderRadius: 6,
+    color: "#111827",
+  },
+  loginButton: {
+    width: "100%",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 4,
+    borderWidth: 1.5,
+    borderColor: "#3f6ad8",
+    alignItems: "center",
+  },
+  guideButton: {
+    backgroundColor: "#16a34a",
+    paddingVertical: 8,
+    borderRadius: 6,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#3f6ad8",
+    fontWeight: "500",
+  },
+  subTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#d7002e",
+    textAlign: "center",
+    marginBottom: 0,
+    marginTop: 16,
+  },
+  disabledButton: {
+    backgroundColor: "#93c5fd", // lighter blue when disabled
+    opacity: 0.7,
+  },
+  // overlay: {
+  //   backgroundColor: 'rgba(255, 255, 255, 0.9)', // Thêm overlay để text dễ đọc hơn
+  // },
+});
+
+export default Login;

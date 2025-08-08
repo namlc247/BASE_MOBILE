@@ -1,0 +1,162 @@
+import * as SecureStore from 'expo-secure-store';
+
+import { jwtDecode } from 'jwt-decode';
+import { Alert } from 'react-native';
+import { create } from 'zustand';
+import axios from '../services/axios';
+
+import instance from '../services/axios';
+import { md5EndCode } from '../utils/authUtils';
+import { Buffer } from 'buffer';
+
+import Toast from 'react-native-toast-message';
+
+interface AuthState {
+	token: string | null;
+	user: any | null;
+	isLoading: boolean;
+	error: string | null;
+	login: (username: string, password: string) => Promise<void>;
+	clearToken: () => Promise<void>;
+	logout: () => Promise<void>;
+	checkAuth: () => Promise<void>;
+	refreshToken: () => Promise<void>;
+}
+
+export const useAuthStore = create<AuthState>((set) => ({
+	token: null,
+	user: null,
+	isLoading: false,
+	error: null,
+
+	login: async (usernameInput: string, passwordInput: string) => {
+		try {
+			const payload = new URLSearchParams({
+				username: usernameInput,
+				password: md5EndCode(passwordInput),
+				year_handling: '2024',
+				grant_type: 'password',
+			}).toString();
+
+			const headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization:
+					'Basic QWRtaW5IdW1hblJlc291cmNlTWFuYWdlcjpBZG1pblNlY3JldEh1bWFuUmVzb3VyY2VNYW5hZ2Vy',
+			};
+			set({ isLoading: true, error: null });
+			const response = await instance.post(
+				'/gateway/auth/login',
+				payload,
+				{
+					headers,
+				}
+			);
+			const { access_token, refresh_token } = response.data;
+
+			// Alert.alert('Đăng nhập thành công', 'Token' + access_token);
+
+			await SecureStore.setItemAsync('token', access_token);
+			await SecureStore.setItemAsync('refreshToken', refresh_token);
+			set({ token: access_token, user: null, isLoading: false });
+		} catch (error: any) {
+			console.error(error);
+			const errorMessage =
+				error.response?.data?.message ||
+				'Không thể kết nối đến service, vui lòng kiểm tra lại.';
+			set({ error: errorMessage, isLoading: false });
+
+			if (error.response?.status === 400) {
+				Alert.alert(
+					'Thông báo',
+					'Tài khoản hoặc mật khẩu không chính xác.'
+				);
+			} else {
+				Alert.alert('Error', `${instance.getUri()}\n${error.message}`);
+			}
+		}
+	},
+
+	clearToken: async () => {
+		try {
+			await SecureStore.deleteItemAsync('token');
+			await SecureStore.deleteItemAsync('refreshToken');
+			set({ token: null, user: null });
+		} catch (error) {}
+	},
+
+	logout: async () => {
+		try {
+			const token = await SecureStore.getItemAsync('token');
+
+			if (token) {
+				const req = Buffer.from(token, 'utf-8').toString('base64');
+
+				const response = await instance.post(
+					'/gateway/auth/logout',
+					{ req }, // body
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					}
+				);
+
+				await useAuthStore.getState().clearToken();
+
+				Toast.show({
+					type: 'success',
+					text2: 'Đăng xuất thành công',
+				});
+			}
+		} catch (error) {
+			Toast.show({
+				type: 'error',
+				text2: 'Không thể đăng xuất',
+			});
+		}
+	},
+
+	checkAuth: async () => {
+		try {
+			set({ isLoading: true });
+			const token = await SecureStore.getItemAsync('token');
+			if (!token) {
+				set({ token: null, user: null, isLoading: false });
+				return;
+			}
+
+			const decoded = jwtDecode(token);
+			const currentTime = Date.now() / 1000;
+
+			if ((decoded as any).exp < currentTime) {
+				await useAuthStore.getState().refreshToken();
+			} else {
+				set({ token, user: decoded });
+			}
+		} catch (error) {
+			set({ token: null, user: null });
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	refreshToken: async () => {
+		try {
+			const refreshToken = await SecureStore.getItemAsync('refreshToken');
+			if (!refreshToken) {
+				throw new Error('No refresh token available');
+			}
+
+			const response = await axios.post('/auth/refresh', {
+				refreshToken,
+			});
+			const { token: newToken } = response.data;
+
+			await SecureStore.setItemAsync('token', newToken);
+			const decoded = jwtDecode(newToken);
+			set({ token: newToken, user: decoded });
+		} catch (error) {
+			await useAuthStore.getState().logout();
+		}
+	},
+}));
