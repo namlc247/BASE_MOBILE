@@ -55,7 +55,7 @@ export default function CalendarUser() {
 
   return (
     <Layout isLoading={isLoading}>
-      <View style={tw`h-full flex-col p-2 pb-0 gap-3`}>
+      <View style={tw`h-full flex-col pb-0 gap-3`}>
         <View style={tw`flex-1`}>
           <Card style={tw`bg-white h-full`}>
             <Card.Content style={tw`p-3 px-4 h-full`}>

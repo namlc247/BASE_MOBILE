@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   useWindowDimensions,
   FlatList,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
@@ -59,6 +60,7 @@ import { NotificationItem } from "./notification/NotificationItem";
 import { SignalService } from "../services/signal/signal.service";
 import BottomBar from "./BottomBar";
 import COLORS from "../constants/colors";
+import { LinearGradient } from "expo-linear-gradient";
 
 const menuData = [
   {
@@ -335,147 +337,162 @@ const Layout = ({ children, isLoading = false }: LayoutProps) => {
   }, [navigation, route]);
 
   return (
-    <View style={tw`flex-1 bg-[#fff]`}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.backgroundColorPrimary} />
+    <TouchableWithoutFeedback onPress={() => { /* ẩn bàn phím hoặc reset */ }}>
+      <View style={tw`flex-1 bg-[#fff]`}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent" // Android: trong suốt
+          translucent={true}           // Android: để nội dung tràn lên status bar
+        />
 
-      {/* Main Content */}
-      <View style={tw`flex-1 bg-[${COLORS.backgroundColorGray}]`}>
-        {/* Content Area */}
-        <View
-          style={[
-            tw`absolute top-0 left-0 right-0 h-30 bg-[${COLORS.backgroundColorPrimary}] rounded-b-3xl`,
-            { zIndex: 0 }
-          ]}>
+        {/* Main Content */}
+        <View style={tw`flex-1 bg-[${COLORS.backgroundColorGray}] pt-10`}>
+          {/* <LinearGradient
+        colors={['#d2e4d6', '#d7ece9', '#e4f1f5', '#f4f7fc', '#ffffff']}
+        start={{ x: 0, y: 0 }} // to left bottom
+        end={{ x: 0, y: 1 }}
+        style={tw`flex-1 bg-[${COLORS.backgroundColorGray}] pt-6`}
+      > */}
+          <LinearGradient
+            colors={['#005f37', '#007946', '#009456', '#00af67', '#00cc77']}
+            start={{ x: 0, y: 0 }} // to left bottom
+            end={{ x: 0, y: 1 }}
+            style={[
+              tw`absolute top-0 left-0 right-0 h-36 rounded-b-3xl`,
+              { zIndex: 0 }
+            ]}
+          />
+          <View style={tw`mb-4`}>
+            <Text style={tw`text-2xl font-bold text-[#fff] text-center`}>
+              {menuNameData[route.name as string]}
+            </Text>
+          </View>
+          <View style={tw`flex-1 p-5 pt-0`}>{children}</View>
+          {/* </LinearGradient> */}
         </View>
-        <View style={tw`mb-3`}>
-          <Text style={tw`text-2xl font-bold text-[#fff] text-center`}>
-            {menuNameData[route.name as string]}
-          </Text>
-        </View>
-        <View style={tw`flex-1 p-3 pt-0`}>{children}</View>
-      </View>
 
-      {/* Modal cho menu */}
-      {
-        showModal && (
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={showModal}
-            onRequestClose={closeModal}
-          >
-            <View style={tw`flex-1 flex-row`}>
-              <View style={tw`flex-col bg-white relative w-8.5/10 h-full`}>
-                <View>
-                  <View style={tw`flex-row px-4 border-b border-gray-200 py-1 items-center gap-x-1`}>
-                    <Image
-                      source={BTTMImage}
-                      style={tw`w-9 h-9`}
-                    />
-                    <Text style={tw`text-[#a92722] py-3 font-bold text-xl ml-2 uppercase`}>
-                      Quản lý sinh viên
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={tw`flex-grow-1`}>
-                  {renderMenu()}
-                </View>
-
-                <View style={tw`flex-col justify-center`}>
-                  <View style={tw`flex-row py-5 px-4 items-center gap-4 border-t border-gray-200`}>
-                    <Image source={manualIcon} style={tw`w-7 h-7`} />
-                    <View style={tw`gap-1`}>
-                      <Text style={tw`font-bold pb-1 text-[#d7002e]`}>Hướng dẫn sử dụng</Text>
-                      <View style={tw`flex-row items-center gap-2`}>
-                        <Text style={tw``}>File hướng dẫn:</Text>
-                        <TouchableOpacity style={tw`items-center`}>
-                          <Text style={tw`text-blue-400 underline`}>Tải xuống</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View style={tw`flex-row py-5 px-4 items-center gap-4 border-t border-gray-200`}>
-                    <Image source={phoneIcon} style={tw`w-7 h-7`} />
-                    <View style={tw`gap-1`}>
-                      <Text style={tw`font-bold pb-1 text-[#d7002e]`}>Hỗ trợ</Text>
-                      <Text style={tw``}>
-                        Số điện thoại: 0965.853.399 (Trần Văn An)
+        {/* Modal cho menu */}
+        {
+          showModal && (
+            <Modal
+              transparent={true}
+              animationType="fade"
+              visible={showModal}
+              onRequestClose={closeModal}
+            >
+              <View style={tw`flex-1 flex-row`}>
+                <View style={tw`flex-col bg-white relative w-8.5/10 h-full`}>
+                  <View>
+                    <View style={tw`flex-row px-4 border-b border-gray-200 py-1 items-center gap-x-1`}>
+                      <Image
+                        source={BTTMImage}
+                        style={tw`w-9 h-9`}
+                      />
+                      <Text style={tw`text-[#a92722] py-3 font-bold text-xl ml-2 uppercase`}>
+                        Quản lý sinh viên
                       </Text>
                     </View>
                   </View>
 
-                  <View style={tw`flex-col gap-1 p-2 items-center bg-[#4c4c4c]`}>
-                    <Text style={tw`text-white text-[10px] font-medium uppercase`}>Phần mềm quản lý sinh viên - COPYRIGHT © 2025</Text>
+                  <View style={tw`flex-grow-1`}>
+                    {renderMenu()}
                   </View>
-                </View >
-              </View>
-              <TouchableOpacity
-                style={tw`w-4/5 bg-black opacity-30`}
-                onPress={closeModal}
-              />
-            </View>
-          </Modal>
-        )
-      }
 
-      {/* Modal cho thông báo */}
-      {
-        showNotificationModal && (
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={showNotificationModal}
-            onRequestClose={() => setShowNotificationModal(false)}
-          >
-            <View style={tw`flex-1 flex-row`}>
-              <TouchableOpacity
-                style={tw`w-6/10 bg-black opacity-30`}
-                onPress={() => setShowNotificationModal(false)}
-              />
-              <View style={tw`bg-white w-4/10 h-full shadow-lg`}>
-                <View style={tw`px-3 h-12 flex-row justify-between items-center border-b-2 border-gray-200 `}>
-                  <Text style={tw`text-lg font-medium`}>Thông báo</Text>
-                  <TouchableOpacity onPress={() => allRead()}>
-                    <Text style={tw`text-blue-500`}>Đánh dấu tất cả đã đọc</Text>
-                  </TouchableOpacity>
+                  <View style={tw`flex-col justify-center`}>
+                    <View style={tw`flex-row py-5 px-4 items-center gap-4 border-t border-gray-200`}>
+                      <Image source={manualIcon} style={tw`w-7 h-7`} />
+                      <View style={tw`gap-1`}>
+                        <Text style={tw`font-bold pb-1 text-[#d7002e]`}>Hướng dẫn sử dụng</Text>
+                        <View style={tw`flex-row items-center gap-2`}>
+                          <Text style={tw``}>File hướng dẫn:</Text>
+                          <TouchableOpacity style={tw`items-center`}>
+                            <Text style={tw`text-blue-400 underline`}>Tải xuống</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View style={tw`flex-row py-5 px-4 items-center gap-4 border-t border-gray-200`}>
+                      <Image source={phoneIcon} style={tw`w-7 h-7`} />
+                      <View style={tw`gap-1`}>
+                        <Text style={tw`font-bold pb-1 text-[#d7002e]`}>Hỗ trợ</Text>
+                        <Text style={tw``}>
+                          Số điện thoại: 0965.853.399 (Trần Văn An)
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={tw`flex-col gap-1 p-2 items-center bg-[#4c4c4c]`}>
+                      <Text style={tw`text-white text-[10px] font-medium uppercase`}>Phần mềm quản lý sinh viên - COPYRIGHT © 2025</Text>
+                    </View>
+                  </View >
                 </View>
-                {/* Nội dung thông báo*/}
-                <FlatList
-                  data={listNewsfeed}
-                  keyExtractor={(item, index) => index.toString()}
-                  style={tw`flex-1`}
-                  onEndReachedThreshold={0.1}
-                  onEndReached={() => {
-                    if (isHaveMoreNewsFeed) {
-                      getListNewsfeed(pageNewsfeed + 1);
-                    }
-                  }}
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={true}
-                  showsHorizontalScrollIndicator={false}
-                  persistentScrollbar={true}
-                  renderItem={({ item: notification, index }) => (
-                    <NotificationItem
-                      notification={notification}
-                      listImageNewsFeed={listImageNewsFeed}
-                      clickThongBao={(item: any) => {
-                        openThongBao(item);
-                      }}
-                    />
-                  )}
+                <TouchableOpacity
+                  style={tw`w-4/5 bg-black opacity-30`}
+                  onPress={closeModal}
                 />
-
               </View>
-            </View>
-          </Modal>
-        )
-      }
+            </Modal>
+          )
+        }
 
-      {/* Replace the Modal component with LoadingModal */}
-      <LoadingModal visible={isLoading} />
-    </View >
+        {/* Modal cho thông báo */}
+        {
+          showNotificationModal && (
+            <Modal
+              transparent={true}
+              animationType="fade"
+              visible={showNotificationModal}
+              onRequestClose={() => setShowNotificationModal(false)}
+            >
+              <View style={tw`flex-1 flex-row`}>
+                <TouchableOpacity
+                  style={tw`w-6/10 bg-black opacity-30`}
+                  onPress={() => setShowNotificationModal(false)}
+                />
+                <View style={tw`bg-white w-4/10 h-full shadow-lg`}>
+                  <View style={tw`px-3 h-12 flex-row justify-between items-center border-b-2 border-gray-200 `}>
+                    <Text style={tw`text-lg font-medium`}>Thông báo</Text>
+                    <TouchableOpacity onPress={() => allRead()}>
+                      <Text style={tw`text-blue-500`}>Đánh dấu tất cả đã đọc</Text>
+                    </TouchableOpacity>
+                  </View>
+                  {/* Nội dung thông báo*/}
+                  <FlatList
+                    data={listNewsfeed}
+                    keyExtractor={(item, index) => index.toString()}
+                    style={tw`flex-1`}
+                    onEndReachedThreshold={0.1}
+                    onEndReached={() => {
+                      if (isHaveMoreNewsFeed) {
+                        getListNewsfeed(pageNewsfeed + 1);
+                      }
+                    }}
+                    nestedScrollEnabled={true}
+                    showsVerticalScrollIndicator={true}
+                    showsHorizontalScrollIndicator={false}
+                    persistentScrollbar={true}
+                    renderItem={({ item: notification, index }) => (
+                      <NotificationItem
+                        notification={notification}
+                        listImageNewsFeed={listImageNewsFeed}
+                        clickThongBao={(item: any) => {
+                          openThongBao(item);
+                        }}
+                      />
+                    )}
+                  />
+
+                </View>
+              </View>
+            </Modal>
+          )
+        }
+
+        {/* Replace the Modal component with LoadingModal */}
+        <LoadingModal visible={isLoading} />
+      </View >
+    </TouchableWithoutFeedback>
   );
 };
 

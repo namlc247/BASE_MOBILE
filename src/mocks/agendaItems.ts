@@ -28,15 +28,38 @@ function getPastDate(numberOfDays: number) {
 		.split('T')[0];
 }
 
+const eventsVN = [
+	'Yoga buổi sáng',
+	'Thiền thư giãn',
+	'Chạy bộ công viên',
+	'Bơi tự do',
+	'Gym tăng cơ',
+	'Đạp xe',
+	'Aerobic vui khỏe',
+	'Nhảy Zumba',
+	'Giãn cơ trị liệu',
+	'Pilates nâng cao',
+	'Bóng bàn',
+	'Cầu lông',
+	'Kickboxing',
+	'Tập core',
+	'Leo núi trong nhà',
+];
+
+function getRandomEvent(exclude: string[] = []): string {
+	const available = eventsVN.filter((e) => !exclude.includes(e));
+	return available[Math.floor(Math.random() * available.length)];
+}
+
 export const agendaItems = [
 	{
 		title: dates[0],
 		data: [
-			{ hour: '12am', duration: '1h', title: 'First Yoga' },
+			{ hour: '12am', duration: '1h', title: getRandomEvent() },
 			{
 				hour: '9am',
 				duration: '1h',
-				title: 'Long Yoga',
+				title: getRandomEvent(),
 				itemCustomHeightType: 'LongEvent',
 			},
 		],
@@ -44,21 +67,21 @@ export const agendaItems = [
 	{
 		title: dates[1],
 		data: [
-			{ hour: '4pm', duration: '1h', title: 'Pilates ABC' },
-			{ hour: '5pm', duration: '1h', title: 'Vinyasa Yoga' },
+			{ hour: '4pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '5pm', duration: '1h', title: getRandomEvent() },
 		],
 	},
 	{
 		title: dates[2],
 		data: [
-			{ hour: '1pm', duration: '1h', title: 'Ashtanga Yoga' },
-			{ hour: '2pm', duration: '1h', title: 'Deep Stretches' },
-			{ hour: '3pm', duration: '1h', title: 'Private Yoga' },
+			{ hour: '1pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '2pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '3pm', duration: '1h', title: getRandomEvent() },
 		],
 	},
 	{
 		title: dates[3],
-		data: [{ hour: '12am', duration: '1h', title: 'Ashtanga Yoga' }],
+		data: [{ hour: '12am', duration: '1h', title: getRandomEvent() }],
 	},
 	{
 		title: dates[4],
@@ -67,15 +90,15 @@ export const agendaItems = [
 	{
 		title: dates[5],
 		data: [
-			{ hour: '9pm', duration: '1h', title: 'Middle Yoga' },
-			{ hour: '10pm', duration: '1h', title: 'Ashtanga' },
-			{ hour: '11pm', duration: '1h', title: 'TRX' },
-			{ hour: '12pm', duration: '1h', title: 'Running Group' },
+			{ hour: '9pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '10pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '11pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '12pm', duration: '1h', title: getRandomEvent() },
 		],
 	},
 	{
 		title: dates[6],
-		data: [{ hour: '12am', duration: '1h', title: 'Ashtanga Yoga' }],
+		data: [{ hour: '12am', duration: '1h', title: getRandomEvent() }],
 	},
 	{
 		title: dates[7],
@@ -84,39 +107,39 @@ export const agendaItems = [
 	{
 		title: dates[8],
 		data: [
-			{ hour: '9pm', duration: '1h', title: 'Pilates Reformer' },
-			{ hour: '10pm', duration: '1h', title: 'Ashtanga' },
-			{ hour: '11pm', duration: '1h', title: 'TRX' },
-			{ hour: '12pm', duration: '1h', title: 'Running Group' },
+			{ hour: '9pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '10pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '11pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '12pm', duration: '1h', title: getRandomEvent() },
 		],
 	},
 	{
 		title: dates[9],
 		data: [
-			{ hour: '1pm', duration: '1h', title: 'Ashtanga Yoga' },
-			{ hour: '2pm', duration: '1h', title: 'Deep Stretches' },
-			{ hour: '3pm', duration: '1h', title: 'Private Yoga' },
+			{ hour: '1pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '2pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '3pm', duration: '1h', title: getRandomEvent() },
 		],
 	},
 	{
 		title: dates[10],
-		data: [{ hour: '12am', duration: '1h', title: 'Last Yoga' }],
+		data: [{ hour: '12am', duration: '1h', title: getRandomEvent() }],
 	},
 	{
 		title: dates[11],
 		data: [
-			{ hour: '1pm', duration: '1h', title: 'Ashtanga Yoga' },
-			{ hour: '2pm', duration: '1h', title: 'Deep Stretches' },
-			{ hour: '3pm', duration: '1h', title: 'Private Yoga' },
+			{ hour: '1pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '2pm', duration: '1h', title: getRandomEvent() },
+			{ hour: '3pm', duration: '1h', title: getRandomEvent() },
 		],
 	},
 	{
 		title: dates[12],
-		data: [{ hour: '12am', duration: '1h', title: 'Last Yoga' }],
+		data: [{ hour: '12am', duration: '1h', title: getRandomEvent() }],
 	},
 	{
 		title: dates[13],
-		data: [{ hour: '12am', duration: '1h', title: 'Last Yoga' }],
+		data: [{ hour: '12am', duration: '1h', title: getRandomEvent() }],
 	},
 ];
 

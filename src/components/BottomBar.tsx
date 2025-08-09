@@ -43,12 +43,12 @@ const BottomBar = React.memo(({
       </View>
 
 
-      {/* <View style={tw`-mt-1`}>
+      <View style={tw``}>
         <Image
           source={logoApp}
-          style={tw`w-12 h-12 rounded-full  border border-[${COLORS.primary}] mt-1`}
+          style={tw`w-12 h-12 rounded-full  border border-[${COLORS.primary}]`}
         />
-      </View> */}
+      </View>
 
       <View style={tw`flex-1`}>
         <ActionButton

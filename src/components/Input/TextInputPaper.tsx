@@ -4,9 +4,9 @@ import { TextInput } from 'react-native-paper';
 import COLORS from '../../constants/colors';
 
 type TextInputPaperProps = {
-  label: string;
   value: string;
   onChangeText: (text: string) => void;
+  label?: string;
   style?: StyleProp<TextStyle>;
   mode?: 'flat' | 'outlined';
   left?: React.ReactNode;
@@ -41,7 +41,14 @@ const TextInputPaper = forwardRef<any, TextInputPaperProps>((props, ref) => {
     <TextInput
       {...props}
       ref={ref} // truyền ref trực tiếp vào TextInput của react-native-paper
-      style={[styles.defaultStyle, props.style]}
+      activeUnderlineColor={props.activeUnderlineColor || COLORS.primary}
+      activeOutlineColor={props.activeOutlineColor || COLORS.primary}
+      outlineColor={props.outlineColor || '#d9d9d9'}
+      style={[
+        styles.defaultStyle,
+        props.style,
+        props.disabled && { backgroundColor: COLORS.backgroundColorInputDisabled, }, // xám đậm
+      ]}
     />
   );
 });

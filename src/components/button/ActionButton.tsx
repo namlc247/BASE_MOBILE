@@ -28,7 +28,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 }) => {
 
   return (
-    <View style={tw`rounded-lg px-2 py-1`}>
+    <View style={tw`rounded-lg py-1`}>
       <TouchableRipple
         borderless
         onPress={onPress || (() => { })}
@@ -37,8 +37,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         <View style={tw`flex-col justify-center items-center`}>
           <View
             style={[
-              tw`px-4 py-1 rounded-xl`,
-              { backgroundColor: isHightlight ? ColorUtil.lightenColor(colorHightlight, 0.95) : "transparent" },
+              tw`px-2 py-1 rounded-xl`,
+              { backgroundColor: isHightlight ? ColorUtil.lightenColor(colorHightlight, 0.90) : "transparent" },
             ]}
           >
             <LucideIcon
@@ -48,7 +48,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
             />
           </View>
           <Text
-            style={tw` ${isHightlight ? "font-500" : ""} mt-1 text-[${isHightlight ? colorHightlight : defaultColor}]`}>
+            style={tw` ${isHightlight ? "font-500" : ""} text-sm mt-1 text-[${isHightlight ? colorHightlight : defaultColor}]`}>
             {text}
           </Text>
         </View>

@@ -32,6 +32,7 @@ import { Button, Checkbox, TextInput } from "react-native-paper";
 import { LucideIcon } from "../components/LucideIcon";
 import COLORS from "../constants/colors";
 import ColorUtil from "../utils/colorUtil";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Login: React.FC = () => {
   const usernameRef = useRef<React.ComponentRef<typeof TextInput>>(null);
@@ -90,12 +91,23 @@ const Login: React.FC = () => {
   };
 
   return (
-    <ImageBackground
-      source={backGroundLogin}
+    // <ImageBackground
+    //   source={backGroundLogin}
+    //   style={styles.container}
+    //   imageStyle={styles.backgroundImage}
+    // >
+    <LinearGradient
+      colors={['#005f37', '#007f4a', '#00a05d', '#00c272', '#00e686']}
+      locations={[0, 0.2, 0.3, 0.5, 1]} // tỉ lệ chuyển màu (0 -> 1)
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
       style={styles.container}
-      imageStyle={styles.backgroundImage}
     >
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.backgroundColorPrimary} />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent" // Android: trong suốt
+        translucent={true}           // Android: để nội dung tràn lên status bar
+      />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -103,7 +115,7 @@ const Login: React.FC = () => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <SafeAreaView style={styles.container}>
+          <SafeAreaView style={tw`flex-1`}>
             <View style={tw`flex-col h-full`}>
               {/* PHẦN HEADER CỐ ĐỊNH */}
               <View style={tw`flex-3.5 bg-transparent flex-row items-center justify-center`}>
@@ -203,7 +215,8 @@ const Login: React.FC = () => {
       </KeyboardAvoidingView>
 
       <LoadingModal visible={isLoading} />
-    </ImageBackground>
+    </LinearGradient>
+    // </ImageBackground>
 
   );
 };
@@ -211,7 +224,7 @@ const Login: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.backgroundColorPrimary,
+    // backgroundColor: COLORS.backgroundColorPrimary,
   },
   backgroundImage: {
     flex: 1,

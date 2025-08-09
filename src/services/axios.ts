@@ -14,7 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 // });
 
 const instance = axios.create({
-	baseURL: 'http://192.168.1.6:8090', // Base URL
+	baseURL: 'http://103.124.94.201:8090', // Base URL
 	timeout: 15000,
 });
 
@@ -35,6 +35,7 @@ instance.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		if (error.response?.status === 401) {
+			const { useAuthStore } = require('../stores/authStore');
 			await useAuthStore.getState().logout();
 		}
 		console.error(error);

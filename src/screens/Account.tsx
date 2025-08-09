@@ -9,6 +9,7 @@ import {
   Text,
   Image,
   Alert,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Layout from "../components/Layout";
 import tw from "twrnc";
@@ -21,15 +22,55 @@ import { SignalService } from "../services/signal/signal.service";
 import WebSocketService from '../services/WebSocketService';
 import { useAuthStore } from "../stores/authStore";
 
+import AccountInfo from "../components/account/AccountInfo";
+import BaseDialog from "../components/dialog-base/BaseDialog";
+
 export default function Account() {
   const { userDetail, listImageGlobal } = useUser();
   const [isLoading, setIsLoading] = React.useState<any>(false);
+
+  const [visible, setVisible] = useState(false);
+  const [titleDialog, setTitleDialog] = useState("");
+  const [dialogChildren, setDialogChildren] = useState<React.ReactNode>(null);
 
   const logout = useAuthStore((state) => state.logout);
 
   const [text, setText] = React.useState("");
 
   const signalService = SignalService.getInstance();
+
+  const menuItems = [
+    {
+      icon: "Info",
+      label: "Thông tin tài khoản",
+      children: <AccountInfo />,
+    },
+    {
+      icon: "LockKeyhole",
+      label: "Đổi mật khẩu",
+      children: null,
+    },
+    {
+      icon: "Album",
+      label: "Điều khoản sử dụng",
+      children: null,
+    },
+    {
+      icon: "Album",
+      label: "Chính sách bảo vệ DLCN",
+      children: null,
+    },
+    {
+      icon: "Info",
+      label: "Thông tin ứng dụng",
+      children: null,
+    },
+    {
+      icon: "LogOut",
+      label: "Đăng xuất",
+      onPress: () => doLogOut(), // Không mở dialog, logout luôn
+    },
+  ];
 
   React.useEffect(() => {
   }, []);
@@ -46,10 +87,10 @@ export default function Account() {
     logout();
   };
 
-
   return (
     <Layout isLoading={isLoading}>
-      <View style={tw`h-full flex-col p-2 pb-0 gap-3`}>
+
+      <View style={tw`h-full flex-col pb-0 gap-3`}>
         <View style={tw`flex-row gap-2`}>
 
           <Card style={tw`bg-white flex-1 max-h-full`}>
@@ -93,89 +134,50 @@ export default function Account() {
                   showsHorizontalScrollIndicator={false}
                   persistentScrollbar={true}
                 >
-                  <TouchableRipple borderless onPress={() => { }}>
-                    <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
-                      <View style={tw`flex-row gap-3 items-center`}>
-                        <LucideIcon icon="Info" color={COLORS.primary} size={26} strokeWidth={1.5} />
-                      </View>
-                      <View style={tw`flex-1`}>
-                        <Text style={tw`text-base text-[#444]`}>Thông tin sinh viên</Text>
-                      </View>
-                    </View>
-                  </TouchableRipple>
+                  {menuItems.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <TouchableRipple
+                        borderless
+                        onPress={() => {
+                          if (item.onPress) {
+                            item.onPress();
+                          } else {
+                            setTitleDialog(item.label);
+                            setDialogChildren(item.children);
+                            setVisible(true);
+                          }
+                        }}
+                      >
+                        <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
+                          <View style={tw`flex-row gap-3 items-center`}>
+                            <LucideIcon icon={item.icon as any} color={COLORS.primary} size={26} strokeWidth={1.5} />
+                          </View>
+                          <View style={tw`flex-1`}>
+                            <Text style={tw`text-base text-[#444]`}>{item.label}</Text>
+                          </View>
+                        </View>
+                      </TouchableRipple>
 
-                  <Divider style={tw`m-0`} />
-
-                  <TouchableRipple borderless onPress={() => { }}>
-                    <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
-                      <View style={tw`flex-row gap-3 items-center`}>
-                        <LucideIcon icon="LockKeyhole" color={COLORS.primary} size={26} strokeWidth={1.5} />
-                      </View>
-                      <View style={tw`flex-1`}>
-                        <Text style={tw`text-base text-[#444]`}>Đổi mật khẩu</Text>
-                      </View>
-                    </View>
-                  </TouchableRipple>
-
-                  <Divider style={tw`m-0`} />
-
-                  <TouchableRipple borderless onPress={() => { }}>
-                    <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
-                      <View style={tw`flex-row gap-3 items-center`}>
-                        <LucideIcon icon="Album" color={COLORS.primary} size={26} strokeWidth={1.5} />
-                      </View>
-                      <View style={tw`flex-1`}>
-                        <Text style={tw`text-base text-[#444]`}>Điều khoản sử dụng</Text>
-                      </View>
-                    </View>
-                  </TouchableRipple>
-
-                  <Divider style={tw`m-0`} />
-
-                  <TouchableRipple borderless onPress={() => { }}>
-                    <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
-                      <View style={tw`flex-row gap-3 items-center`}>
-                        <LucideIcon icon="Album" color={COLORS.primary} size={26} strokeWidth={1.5} />
-                      </View>
-                      <View style={tw`flex-1`}>
-                        <Text style={tw`text-base text-[#444]`}>Chính sách bảo vệ DLCN</Text>
-                      </View>
-                    </View>
-                  </TouchableRipple>
-
-                  <Divider style={tw`m-0`} />
-
-                  <TouchableRipple borderless onPress={() => { }}>
-                    <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
-                      <View style={tw`flex-row gap-3 items-center`}>
-                        <LucideIcon icon="Info" color={COLORS.primary} size={26} strokeWidth={1.5} />
-                      </View>
-                      <View style={tw`flex-1`}>
-                        <Text style={tw`text-base text-[#444]`}>Thông tin ứng dụng</Text>
-                      </View>
-                    </View>
-                  </TouchableRipple>
-
-                  <Divider style={tw`m-0`} />
-
-                  <TouchableRipple
-                    borderless
-                    onPress={doLogOut}>
-                    <View style={tw`flex-row gap-3 items-center px-2 py-3`}>
-                      <View style={tw`flex-row gap-3 items-center`}>
-                        <LucideIcon icon="LogOut" color={COLORS.primary} size={26} strokeWidth={1.5} />
-                      </View>
-                      <View style={tw`flex-1`}>
-                        <Text style={tw`text-base text-[#444]`}>Đăng xuất</Text>
-                      </View>
-                    </View>
-                  </TouchableRipple>
+                      {/* Divider */}
+                      {index < menuItems.length - 1 && <Divider style={tw`m-0`} />}
+                    </React.Fragment>
+                  ))}
                 </ScrollView>
               </View>
             </Card.Content>
           </Card>
         </View>
       </View>
+
+      <BaseDialog
+        visible={visible}
+        titleDialog={titleDialog}
+        onDismiss={() => setVisible(false)}
+      >
+        {dialogChildren}
+      </BaseDialog>
+
+
     </Layout>
   );
 }
