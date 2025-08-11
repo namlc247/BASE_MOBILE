@@ -22,14 +22,17 @@ import { SignalService } from "../services/signal/signal.service";
 import WebSocketService from '../services/WebSocketService';
 import { useAuthStore } from "../stores/authStore";
 
-import AccountInfo from "../components/account/AccountInfo";
+
 import BaseDialog from "../components/dialog-base/BaseDialog";
+import AccountInfo from "../components/screenComponent/account/AccountInfo";
+import { useBaseDialog } from "../contexts/BaseDialogContext";
 
 export default function Account() {
+  const { showBaseDialog } = useBaseDialog();
   const { userDetail, listImageGlobal } = useUser();
   const [isLoading, setIsLoading] = React.useState<any>(false);
 
-  const [visible, setVisible] = useState(false);
+
   const [titleDialog, setTitleDialog] = useState("");
   const [dialogChildren, setDialogChildren] = useState<React.ReactNode>(null);
 
@@ -81,16 +84,23 @@ export default function Account() {
     }, [])
   );
 
-  const doLogOut = () => {
+  const doLogOut = async () => {
+    setIsLoading(true);
     signalService.localStore.reSet();
     WebSocketService.close();
-    logout();
+    try {
+      await logout();
+    } catch (error) {
+      // Có thể xử lý lỗi ở đây nếu cần
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Layout isLoading={isLoading}>
 
-      <View style={tw`h-full flex-col pb-0 gap-3`}>
+      <View style={tw`h-full flex-col p-4 pt-0 gap-3`}>
         <View style={tw`flex-row gap-2`}>
 
           <Card style={tw`bg-white flex-1 max-h-full`}>
@@ -142,9 +152,12 @@ export default function Account() {
                           if (item.onPress) {
                             item.onPress();
                           } else {
+                            showBaseDialog(
+                              item.label,
+                              item.children
+                            );
                             setTitleDialog(item.label);
                             setDialogChildren(item.children);
-                            setVisible(true);
                           }
                         }}
                       >
@@ -168,16 +181,6 @@ export default function Account() {
           </Card>
         </View>
       </View>
-
-      <BaseDialog
-        visible={visible}
-        titleDialog={titleDialog}
-        onDismiss={() => setVisible(false)}
-      >
-        {dialogChildren}
-      </BaseDialog>
-
-
     </Layout>
   );
 }

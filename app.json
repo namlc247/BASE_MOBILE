@@ -5,8 +5,7 @@
     "version": "1.0.0",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "android": {
       "package": "com.tnd.pmbcmobile",
@@ -22,8 +21,6 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
         }
       ],
-      "@config-plugins/react-native-blob-util",
-      "@config-plugins/react-native-pdf",
       "expo-build-properties"
     ],
     "extra": {

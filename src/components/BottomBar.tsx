@@ -37,18 +37,18 @@ const BottomBar = React.memo(({
         <ActionButton
           icon={'CreditCard'}
           text="Học phí"
-          isHightlight={false}
-          onPress={() => { }}
+          isHightlight={routeName === "HocPhi"}
+          onPress={() => toggleMenu('HocPhi')}
         />
       </View>
 
 
-      <View style={tw``}>
+      {/* <View style={tw`-mt-3`}>
         <Image
           source={logoApp}
           style={tw`w-12 h-12 rounded-full  border border-[${COLORS.primary}]`}
         />
-      </View>
+      </View> */}
 
       <View style={tw`flex-1`}>
         <ActionButton

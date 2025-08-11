@@ -12,6 +12,7 @@ interface BaseDialogProps {
   dialogStyle?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
   titleDialog?: string;
+  data?: any;
 }
 
 const BaseDialog: React.FC<BaseDialogProps> = ({
@@ -19,8 +20,13 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   onDismiss,
   dialogStyle,
   children,
-  titleDialog = ""
+  titleDialog = "",
+  data
 }) => {
+  React.useEffect(() => {
+    console.log("data", data);
+  }, [data]);
+
   return (
     <Portal>
 
@@ -55,7 +61,7 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
                 <LucideIcon icon="ArrowLeft" color="#fff" size={26} strokeWidth={1.5} />
               </TouchableOpacity>
 
-              <Text style={tw`text-lg font-bold text-[#fff] `}>
+              <Text style={tw`text-xl font-bold text-[#fff] `}>
                 {titleDialog}
               </Text>
             </View>

@@ -146,7 +146,7 @@ const Login: React.FC = () => {
                           right={
                             <TextInput.Icon
                               icon={() => (
-                                <LucideIcon icon="CircleUserRound" color="#666" size={22} strokeWidth={1.5} />
+                                <LucideIcon icon="CircleUserRound" color={COLORS.primary} size={22} strokeWidth={1.5} />
                               )}
                             />
                           }
@@ -165,7 +165,7 @@ const Login: React.FC = () => {
                           right={
                             <TextInput.Icon
                               icon={() => (
-                                <LucideIcon icon={secure ? 'Lock' : 'LockOpen'} color="#666" size={22} strokeWidth={1.5} />
+                                <LucideIcon icon={secure ? 'Lock' : 'LockOpen'} color={COLORS.primary} size={22} strokeWidth={1.5} />
                               )}
                               onPress={() => setSecure(!secure)}
                             />

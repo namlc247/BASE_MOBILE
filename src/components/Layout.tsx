@@ -73,6 +73,7 @@ const menuData = [
 const menuNameData: { [key: string]: string } = {
   "Account": "Cá nhân",
   "CalendarUser": "Lịch học",
+  "HocPhi": "Học phí",
 };
 
 interface LayoutProps {
@@ -367,7 +368,7 @@ const Layout = ({ children, isLoading = false }: LayoutProps) => {
               {menuNameData[route.name as string]}
             </Text>
           </View>
-          <View style={tw`flex-1 p-5 pt-0`}>{children}</View>
+          <View style={tw`flex-1 pt-0`}>{children}</View>
           {/* </LinearGradient> */}
         </View>
 

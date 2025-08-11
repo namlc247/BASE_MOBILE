@@ -21,7 +21,7 @@ type ActionButtonProps = {
 const ActionButton: React.FC<ActionButtonProps> = ({
   icon,
   text,
-  defaultColor = "#666666",
+  defaultColor = COLORS.textInactive,
   colorHightlight = COLORS.primary,
   isHightlight = false,
   onPress
@@ -44,7 +44,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
             <LucideIcon
               icon={icon}
               color={isHightlight ? colorHightlight : defaultColor}
-              strokeWidth={1.5}
+              strokeWidth={1.2}
             />
           </View>
           <Text

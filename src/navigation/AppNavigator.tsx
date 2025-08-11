@@ -21,6 +21,12 @@ import tw from "twrnc";
 import ExpandableCalendarScreen from "../screens/expandableCalendarScreen";
 
 
+import HocPhi from "../screens/HocPhi";
+import ScreenWrapper from "../components/ScreenWrapper";
+import { BaseDialogProvider } from "../contexts/BaseDialogContext";
+import { LoadingProvider } from "../contexts/LoadingContext";
+
+
 
 const theme = {
   ...DefaultTheme,
@@ -57,21 +63,26 @@ const ProtectedRoutes = ({ navigationRef }:
       <WebSocketProvider>
         <NewsfeedProvider>
           <IntervalProvider>
-            <PaperProvider theme={theme}>
-              <DialogConfirmProvider>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Account" component={Account} />
-                  <Stack.Screen name="CalendarUser" component={CalendarUser} />
-                  <Stack.Screen name="ExpandableCalendarScreen" component={ExpandableCalendarScreen} />
-                </Stack.Navigator>
+
+            <DialogConfirmProvider>
+              <BaseDialogProvider>
+                <ScreenWrapper navigationRef={navigationRef}>
+                  <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="Account" component={Account} />
+                    <Stack.Screen name="CalendarUser" component={CalendarUser} />
+                    <Stack.Screen name="ExpandableCalendarScreen" component={ExpandableCalendarScreen} />
+                    <Stack.Screen name="HocPhi" component={HocPhi} />
+                  </Stack.Navigator>
+                </ScreenWrapper>
 
                 <View style={tw`bg-white border-t border-gray-200`}>
                   <BottomBar
                     toggleMenu={toggleMenu}
                   />
                 </View>
-              </DialogConfirmProvider>
-            </PaperProvider>
+              </BaseDialogProvider>
+            </DialogConfirmProvider>
+
           </IntervalProvider>
         </NewsfeedProvider>
       </WebSocketProvider>
@@ -80,13 +91,13 @@ const ProtectedRoutes = ({ navigationRef }:
 };
 
 const PublicRoutes = () => (
-  <PaperProvider theme={theme}>
-    <DialogConfirmProvider>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-      </Stack.Navigator>
-    </DialogConfirmProvider>
-  </PaperProvider>
+
+  <DialogConfirmProvider>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login} />
+    </Stack.Navigator>
+  </DialogConfirmProvider>
+
 );
 
 export const AppNavigator = () => {
@@ -94,9 +105,13 @@ export const AppNavigator = () => {
   const { token, isLoading } = useAuthStore();
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      {token && !isLoading ? <ProtectedRoutes navigationRef={navigationRef} /> : <PublicRoutes />}
-      <Toast config={MyToastUtils.toastConfig} visibilityTime={3000} />
-    </NavigationContainer>
+    <LoadingProvider >
+      <PaperProvider theme={theme}>
+        <NavigationContainer ref={navigationRef}>
+          {token && !isLoading ? <ProtectedRoutes navigationRef={navigationRef} /> : <PublicRoutes />}
+          <Toast config={MyToastUtils.toastConfig} visibilityTime={3000} />
+        </NavigationContainer>
+      </PaperProvider>
+    </LoadingProvider>
   );
 };

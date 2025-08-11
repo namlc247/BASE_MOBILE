@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { DialogConfirm } from '../components/dialog-confirm/DialogConfirm';
 
-type DialogOptions = {
+type DialogConfirmOptions = {
   title: string;
   content: string;
   textBtnOk?: string;
@@ -10,58 +10,58 @@ type DialogOptions = {
   onCancel?: () => void;
 };
 
-type DialogContextType = {
-  showDialog: (options: DialogOptions) => void;
-  hideDialog: () => void;
+type DialogConfirmContextType = {
+  showDialogConfirm: (options: DialogConfirmOptions) => void;
+  hideDialogConfirm: () => void;
 };
 
-const DialogContext = createContext<DialogContextType | undefined>(undefined);
+const DialogConfirmContext = createContext<DialogConfirmContextType | undefined>(undefined);
 
 export const DialogConfirmProvider = ({ children }: { children: ReactNode }) => {
   const [visible, setVisible] = useState(false);
-  const [options, setOptions] = useState<DialogOptions>({
+  const [options, setOptions] = useState<DialogConfirmOptions>({
     title: '',
     content: '',
     textBtnOk: 'Đồng ý',
     textBtnCancel: 'Hủy bỏ',
   });
 
-  const showDialog = (newOptions: DialogOptions) => {
+  const showDialogConfirm = (newOptions: DialogConfirmOptions) => {
     setOptions(newOptions);
     setVisible(true);
   };
 
-  const hideDialog = () => {
+  const hideDialogConfirm = () => {
     setVisible(false);
   };
 
   return (
-    <DialogContext.Provider value={{ showDialog, hideDialog }}>
+    <DialogConfirmContext.Provider value={{ showDialogConfirm, hideDialogConfirm }}>
       {children}
       <DialogConfirm
         visible={visible}
-        onDismiss={hideDialog}
+        onDismiss={hideDialogConfirm}
         title={options.title}
         content={options.content}
         textBtnOk={options.textBtnOk || 'Đồng ý'}
         textBtnCancel={options.textBtnCancel || 'Hủy'}
         onConfirm={() => {
           options.onConfirm?.();
-          hideDialog();
+          hideDialogConfirm();
         }}
         onCancel={() => {
           options.onCancel?.();
-          hideDialog();
+          hideDialogConfirm();
         }}
       />
-    </DialogContext.Provider>
+    </DialogConfirmContext.Provider>
   );
 };
 
-export const useDialog = (): DialogContextType => {
-  const context = useContext(DialogContext);
+export const useDialogConfirm = (): DialogConfirmContextType => {
+  const context = useContext(DialogConfirmContext);
   if (!context) {
-    throw new Error('useDialog must be used within a DialogConfirmProvider');
+    throw new Error('useDialogConfirm must be used within a DialogConfirmProvider');
   }
   return context;
 }; 
