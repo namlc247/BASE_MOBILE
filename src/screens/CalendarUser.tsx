@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -22,6 +22,44 @@ import WebSocketService from '../services/WebSocketService';
 import { useAuthStore } from "../stores/authStore";
 import { Calendar } from 'react-native-calendars';
 import CalendarUtils from "../utils/calendarUtils";
+import { getTheme } from "../mocks/theme";
+
+const accountItems: { [key: string]: any[] } = {
+  "2025-08-12": [
+    {
+      time: "08:00",
+      label: "Toán ứng dụng",
+    },
+    {
+      time: "13:30",
+      label: "Cơ sở toán học cho tin học",
+    },
+  ],
+  "2025-08-13": [
+    {
+      time: "08:00",
+      label: "Kỹ thuật điều khiển và tự động hóa",
+    },
+    {
+      time: "10:00",
+      label: "Kỹ thuật điện tử",
+    },
+    {
+      time: "13:30",
+      label: "Chỉ huy, quản lý kỹ thuật",
+    }
+  ],
+  "2025-08-14": [
+    {
+      time: "08:00",
+      label: "Kỹ thuật rađa - dẫn đường",
+    },
+    {
+      time: "13:30",
+      label: "Kỹ thuật cơ khí",
+    }
+  ]
+};
 
 export default function CalendarUser() {
   const { userDetail, listImageGlobal } = useUser();
@@ -30,16 +68,15 @@ export default function CalendarUser() {
   const logout = useAuthStore((state) => state.logout);
 
   const [text, setText] = React.useState("");
+  const today = CalendarUtils.customFormatDate(new Date(), 'YYYY-MM-DD');
 
-
-  const [selectedDate, setSelectedDate] = useState<any>();
+  const theme = useRef(getTheme());
+  const [selectedDate, setSelectedDate] = useState<string>(today);
 
   // Dữ liệu custom: ngày được đánh dấu và chọn
   const markedDates = {
-    '2025-08-10': { marked: true, dotColor: 'red' },
-    '2025-08-11': { selected: true, selectedColor: '#4CAF50' },
-    '2025-08-12': { marked: true, dotColor: 'blue' },
-    [selectedDate?.dateString]: { selected: true, selectedColor: '#2196F3' },
+    [today]: { selected: true, selectedColor: "#008ebf" },
+    [selectedDate]: { selected: true, selectedColor: COLORS.primary },
   };
 
   React.useEffect(() => {
@@ -51,6 +88,16 @@ export default function CalendarUser() {
     }, [])
   );
 
+  const renderHeader = useCallback(
+    (date?: XDate) => {
+      return (
+        <View style={tw`flex-row justify-center items-center mb-2`}>
+          <Text style={tw`text-base font-bold uppercase m-1 mt-2 text-[${COLORS.primary}]`}>{date?.toString('MMMM yyyy')}</Text>
+        </View>
+      );
+    },
+    []
+  );
 
 
   return (
@@ -58,34 +105,54 @@ export default function CalendarUser() {
       <View style={tw`h-full flex-col p-4 pt-0 gap-3`}>
         <View style={tw`flex-1`}>
           <Card style={tw`bg-white h-full`}>
-            <Card.Content style={tw`p-3 px-4 h-full`}>
-              <View style={tw`flex-row gap-4`}>
-                <ScrollView
-                  style={tw`h-full`}
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={true}
-                  showsHorizontalScrollIndicator={false}
-                  persistentScrollbar={true}
-                >
-                  <Calendar
-                    // Hiển thị đánh dấu và chọn ngày
-                    markedDates={markedDates}
-                    // Sự kiện khi chọn ngày
-                    onDayPress={(day: any) => {
-                      console.log('Ngày được chọn:', day);
-                      setSelectedDate(day);
-                    }}
-                    // Tuỳ chỉnh theme
-                    theme={{
-                      selectedDayBackgroundColor: '#00adf5',
-                      todayTextColor: '#00adf5',
-                      arrowColor: '#00adf5',
-                    }}
-                  />
+            <Card.Content style={tw`p-3 px-4 pt-0 h-full`}>
+              <View style={tw`flex-1 flex-col gap-3`}>
+                <Calendar
+                  style={tw`p-0 m-0`}
+                  // Hiển thị đánh dấu và chọn ngày
+                  renderHeader={renderHeader}
+                  markedDates={markedDates}
+                  firstDay={1}
+                  // Sự kiện khi chọn ngày
+                  onDayPress={(day: any) => {
+                    console.log('Ngày được chọn:', day);
+                    setSelectedDate(day.dateString);
+                  }}
+                  // Tuỳ chỉnh theme
+                  theme={theme.current}
+                />
 
-                  {selectedDate && (
-                    <Text style={styles.selectedText}>Ngày đã chọn: {CalendarUtils.customFormatDate(selectedDate.timestamp, 'DD/MM/YYYY')}</Text>
-                  )}
+                <View style={tw`px-2`}>
+                  <Text style={tw`text-sm font-bold text-[#999]`}>
+                    Ngày {CalendarUtils.customFormatDate(selectedDate, 'DD/MM/YYYY')}
+                  </Text>
+                </View>
+
+                <ScrollView
+                  style={tw`flex-1`}
+                >
+                  <View style={tw`flex-col gap-3`}>
+                    {accountItems[selectedDate]?.map((item: any, index) => (
+                      <React.Fragment key={index}>
+                        <TouchableRipple
+                          borderless
+                          onPress={() => {
+
+                          }}
+                          style={tw`bg-[${COLORS.backgroundColorGray}] rounded-xl border border-[${COLORS.borderColorGray}]`}
+                        >
+                          <View style={tw`flex-row gap-4 items-center px-3 py-2`}>
+                            <View style={tw``}>
+                              <Text style={tw`text-base font-bold text-[#444]`}>{item.time}</Text>
+                            </View>
+                            <View style={tw`flex-1`}>
+                              <Text style={tw`text-base text-[#444]`}>{item.label}</Text>
+                            </View>
+                          </View>
+                        </TouchableRipple>
+                      </React.Fragment>
+                    ))}
+                  </View>
                 </ScrollView>
               </View>
             </Card.Content>
@@ -96,27 +163,14 @@ export default function CalendarUser() {
   );
 }
 
-const renderHeaderItem = (text: string, style: string) => (
-  <DataTable.Title style={tw`flex-row justify-center items-center ${style}`}>
-    <Text style={tw`text-[#000] font-medium uppercase`}>{text}</Text>
-  </DataTable.Title>
-);
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 16,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  selectedText: {
-    marginTop: 20,
-    fontSize: 16,
-    color: '#333',
-  },
+  // header: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginVertical: 10
+  // },
+  // headerTitle: { fontSize: 16, fontWeight: 'bold', marginRight: 6 },
 });

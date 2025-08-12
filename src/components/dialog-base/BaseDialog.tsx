@@ -24,7 +24,7 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   data
 }) => {
   React.useEffect(() => {
-    console.log("data", data);
+    // console.log("data", data);
   }, [data]);
 
   return (

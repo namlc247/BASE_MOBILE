@@ -71,9 +71,10 @@ const menuData = [
 ];
 
 const menuNameData: { [key: string]: string } = {
-  "Account": "Cá nhân",
-  "CalendarUser": "Lịch học",
+  "Settings": "Cài đặt",
+  "CalendarUser": "Lịch cá nhân",
   "HocPhi": "Học phí",
+  "HomePage": "Trang chủ",
 };
 
 interface LayoutProps {

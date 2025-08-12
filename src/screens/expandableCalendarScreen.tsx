@@ -1,10 +1,10 @@
-import React, {useRef, useCallback} from 'react';
-import {Animated, Easing, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
+import React, { useRef, useCallback } from 'react';
+import { Animated, Easing, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import testIDs from '../testIDs';
-import {agendaItems, getMarkedDates} from '../mocks/agendaItems';
+import { agendaItems, getMarkedDates } from '../mocks/agendaItems';
 import AgendaItem from '../mocks/AgendaItem';
-import {getTheme, themeColor, lightThemeColor} from '../mocks/theme';
+import { getTheme, themeColor, lightThemeColor } from '../mocks/theme';
 import type XDate from 'xdate';
 
 const leftArrowIcon = require('../img/previous.png');
@@ -16,7 +16,7 @@ interface Props {
 }
 const CHEVRON = require('../img/next.png');
 const ExpandableCalendarScreen = (props: Props) => {
-  const {weekView} = props;
+  const { weekView } = props;
   const marked = useRef(getMarkedDates());
   const theme = useRef(getTheme());
   const todayBtnTheme = useRef({
@@ -31,11 +31,11 @@ const ExpandableCalendarScreen = (props: Props) => {
   //   console.log('ExpandableCalendarScreen onMonthChange: ', dateString);
   // }, []);
 
-  const renderItem = useCallback(({item}: any) => {
-    return <AgendaItem item={item}/>;
+  const renderItem = useCallback(({ item }: any) => {
+    return <AgendaItem item={item} />;
   }, []);
 
-  const calendarRef = useRef<{toggleCalendarPosition: () => boolean}>(null);
+  const calendarRef = useRef<{ toggleCalendarPosition: () => boolean }>(null);
   const rotation = useRef(new Animated.Value(0));
 
   const toggleCalendarExpansion = useCallback(() => {
@@ -57,7 +57,7 @@ const ExpandableCalendarScreen = (props: Props) => {
       return (
         <TouchableOpacity style={styles.header} onPress={toggleCalendarExpansion}>
           <Text style={styles.headerTitle}>{date?.toString('MMMM yyyy')}</Text>
-          <Animated.Image source={CHEVRON} style={{transform: [{rotate: '90deg'}, {rotate: rotationInDegrees}]}}/>
+          <Animated.Image source={CHEVRON} style={{ transform: [{ rotate: '90deg' }, { rotate: rotationInDegrees }] }} />
         </TouchableOpacity>
       );
     },
@@ -79,11 +79,11 @@ const ExpandableCalendarScreen = (props: Props) => {
       showTodayButton
       // disabledOpacity={0.6}
       theme={todayBtnTheme.current}
-      // todayBottomMargin={16}
-      // disableAutoDaySelection={[ExpandableCalendar.navigationTypes.MONTH_SCROLL, ExpandableCalendar.navigationTypes.MONTH_ARROWS]}
+    // todayBottomMargin={16}
+    // disableAutoDaySelection={[ExpandableCalendar.navigationTypes.MONTH_SCROLL, ExpandableCalendar.navigationTypes.MONTH_ARROWS]}
     >
       {weekView ? (
-        <WeekCalendar testID={testIDs.weekCalendar.CONTAINER} firstDay={1} markedDates={marked.current}/>
+        <WeekCalendar testID={testIDs.weekCalendar.CONTAINER} firstDay={1} markedDates={marked.current} />
       ) : (
         <ExpandableCalendar
           testID={testIDs.expandableCalendar.CONTAINER}
@@ -104,8 +104,8 @@ const ExpandableCalendarScreen = (props: Props) => {
           markedDates={marked.current}
           leftArrowImageSource={leftArrowIcon}
           rightArrowImageSource={rightArrowIcon}
-          // animateScroll
-          // closeOnDayPress={false}
+        // animateScroll
+        // closeOnDayPress={false}
         />
       )}
       <AgendaList
@@ -113,7 +113,7 @@ const ExpandableCalendarScreen = (props: Props) => {
         renderItem={renderItem}
         // scrollToNextEvent
         sectionStyle={styles.section}
-        // dayFormat={'yyyy-MM-d'}
+      // dayFormat={'yyyy-MM-d'}
       />
     </CalendarProvider>
   );
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10
   },
-  headerTitle: {fontSize: 16, fontWeight: 'bold', marginRight: 6},
+  headerTitle: { fontSize: 16, fontWeight: 'bold', marginRight: 6 },
   section: {
     backgroundColor: lightThemeColor,
     color: 'grey',

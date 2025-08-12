@@ -25,11 +25,13 @@ const BottomBar = React.memo(({
   return (
     <View style={tw`flex-row items-center bg-white`}>
       <View style={tw`flex-1`}>
+        {/* HomePage */}
+        {/* ExpandableCalendarScreen */}
         <ActionButton
           icon={'House'}
           text="Trang chủ"
-          isHightlight={routeName === "ExpandableCalendarScreen"}
-          onPress={() => toggleMenu('ExpandableCalendarScreen')}
+          isHightlight={routeName === "HomePage"}
+          onPress={() => toggleMenu('HomePage')}
         />
       </View>
 
@@ -53,7 +55,7 @@ const BottomBar = React.memo(({
       <View style={tw`flex-1`}>
         <ActionButton
           icon={'CalendarDays'}
-          text="Lịch học"
+          text="Lịch cá nhân"
           isHightlight={routeName === "CalendarUser"}
           onPress={() => toggleMenu('CalendarUser')}
         />
@@ -61,10 +63,10 @@ const BottomBar = React.memo(({
 
       <View style={tw`flex-1`}>
         <ActionButton
-          icon={'UserRound'}
-          text="Cá nhân"
-          isHightlight={routeName === "Account"}
-          onPress={() => toggleMenu('Account')}
+          icon={'Settings'}
+          text="Cài đặt"
+          isHightlight={routeName === "Settings"}
+          onPress={() => toggleMenu('Settings')}
         />
       </View>
     </View>
