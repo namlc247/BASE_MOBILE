@@ -91,9 +91,19 @@ const XuatTrinhTheSinhVien: React.FC<XuatTrinhTheSinhVienProps> = ({
         </Card.Content>
       </Card>
 
+      <View style={tw`flex-row mt-2`}>
+        <Text style={tw`flex-1 text-[#444]`}>
+          <Text style={tw`font-medium`}>Dân tộc:</Text>  <Text style={tw``}>Kinh</Text>
+        </Text>
+
+        <Text style={tw`flex-1 text-[#444]`}>
+          <Text style={tw`font-medium`}>Giới tính:</Text>  <Text style={tw``}>Nam</Text>
+        </Text>
+      </View>
+
       <View style={tw`mt-2`}>
         <Text style={tw`text-[#444]`}>
-          <Text style={tw`font-medium`}>Dân tộc:</Text>  <Text style={tw``}>Kinh</Text>
+          <Text style={tw`font-medium`}>Địa chỉ:</Text>  <Text style={tw``}>Nam</Text>
         </Text>
       </View>
     </View>

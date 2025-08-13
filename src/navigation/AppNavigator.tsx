@@ -88,18 +88,19 @@ const ProtectedRoutes = ({ navigationRef }:
           </IntervalProvider>
         </NewsfeedProvider>
       </WebSocketProvider>
+
     </UserProvider>
   );
 };
 
 const PublicRoutes = () => (
-
-  <DialogConfirmProvider>
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={Login} />
-    </Stack.Navigator>
-  </DialogConfirmProvider>
-
+  <PaperProvider theme={theme}>
+    <DialogConfirmProvider>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </DialogConfirmProvider>
+  </PaperProvider>
 );
 
 export const AppNavigator = () => {
@@ -108,12 +109,12 @@ export const AppNavigator = () => {
 
   return (
     <LoadingProvider >
-
       <NavigationContainer ref={navigationRef}>
+        {/* <PaperProvider theme={theme}> */}
         {token && !isLoading ? <ProtectedRoutes navigationRef={navigationRef} /> : <PublicRoutes />}
         <Toast config={MyToastUtils.toastConfig} visibilityTime={3000} />
+        {/* </PaperProvider> */}
       </NavigationContainer>
-
     </LoadingProvider>
   );
 };
