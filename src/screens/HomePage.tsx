@@ -97,14 +97,6 @@ export default function HomePage() {
     { id: 6, icon: 'FileSearch', label: 'Tra cứu tài liệu' },
   ];
 
-  // Dữ liệu custom: ngày được đánh dấu và chọn
-  const markedDates = {
-    '2025-08-10': { marked: true, dotColor: 'red' },
-    '2025-08-11': { selected: true, selectedColor: '#4CAF50' },
-    '2025-08-12': { marked: true, dotColor: 'blue' },
-    [selectedDate]: { selected: true, selectedColor: '#2196F3' },
-  };
-
   React.useEffect(() => {
   }, []);
 
@@ -416,7 +408,7 @@ export default function HomePage() {
                         key={item.id}
                         borderless
                         onPress={() => {
-                          console.log(`Clicked ${item.title}`);
+                          // console.log(`Clicked ${item.title}`);
                         }}
                         style={tw`flex-row p-1.5 rounded-xl`}
                       >

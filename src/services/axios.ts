@@ -14,7 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 // });
 
 const instance = axios.create({
-	baseURL: 'http://192.168.1.6:8090', // Base URL
+	baseURL: 'http://103.124.94.201:8090', // Base URL
 	timeout: 15000,
 });
 
