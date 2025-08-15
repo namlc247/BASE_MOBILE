@@ -7,6 +7,8 @@ import ColorUtil from '../utils/colorUtil';
 import COLORS from '../constants/colors';
 import { LucideIcon } from './LucideIcon';
 import { NavigationContainerRef } from '@react-navigation/native';
+import { useBaseDialog } from '../contexts/BaseDialogContext';
+import HocPhi from './screenComponent/tienich/HocPhi';
 
 
 type ScreenWrapperProps = {
@@ -15,6 +17,7 @@ type ScreenWrapperProps = {
 };
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ navigationRef, children }) => {
+  const { showBaseDialog, closeAllBaseDialogs } = useBaseDialog();
   const [visible, setVisible] = useState(true);
 
   return (
@@ -52,8 +55,16 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ navigationRef, children }
               style={tw`flex-1`}
               mode="contained"
               onPress={() => {
-                navigationRef.current?.navigate('HocPhi');
-                setVisible(false)
+                // navigationRef.current?.navigate('HocPhi');
+                // setVisible(false)
+                showBaseDialog(
+                  'Học phí',
+                  <HocPhi
+                    showBaseDialog={showBaseDialog}
+                    closeAllBaseDialogs={closeAllBaseDialogs}
+                  />
+                );
+                setVisible(false);
               }}
             >
               <Text style={tw`uppercase text-white`}>Thanh toán</Text>

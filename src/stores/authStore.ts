@@ -46,7 +46,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 			};
 			set({ isLoading: true, error: null });
 			const response = await instance.post(
-				'/gateway/auth/login',
+				'/gateway/oauth2/token',
 				payload,
 				{
 					headers,

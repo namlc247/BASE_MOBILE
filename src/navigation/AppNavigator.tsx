@@ -14,14 +14,14 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import Login from "../screens/Login";
 
 import COLORS from "../constants/colors";
-import CalendarUser from "../screens/CalendarUser";
+import Thongbao from "../screens/Thongbao";
 import { View } from "react-native";
 import BottomBar from "../components/BottomBar";
 import tw from "twrnc";
 import ExpandableCalendarScreen from "../screens/expandableCalendarScreen";
 
 
-import HocPhi from "../screens/HocPhi";
+import Tienich from "../screens/Tienich";
 import ScreenWrapper from "../components/ScreenWrapper";
 import { BaseDialogProvider } from "../contexts/BaseDialogContext";
 import { LoadingProvider } from "../contexts/LoadingContext";
@@ -71,8 +71,8 @@ const ProtectedRoutes = ({ navigationRef }:
                   <ScreenWrapper navigationRef={navigationRef}>
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                       <Stack.Screen name="HomePage" component={HomePage} />
-                      <Stack.Screen name="HocPhi" component={HocPhi} />
-                      <Stack.Screen name="CalendarUser" component={CalendarUser} />
+                      <Stack.Screen name="Tienich" component={Tienich} />
+                      <Stack.Screen name="Thongbao" component={Thongbao} />
                       <Stack.Screen name="Settings" component={Settings} />
                     </Stack.Navigator>
                   </ScreenWrapper>

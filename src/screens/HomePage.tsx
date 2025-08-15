@@ -28,15 +28,8 @@ import SearchAll from "../components/screenComponent/homepage/SearchAll";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
 import XuatTrinhTheSinhVien from "../components/screenComponent/homepage/XuatTrinhTheSinhVien";
-
-const menuItems = [
-  { id: 1, icon: 'CreditCard', label: 'Học phí', type: 'navigate', navigateTo: 'HocPhi' },
-  { id: 2, icon: 'BookOpen', label: 'Đăng ký tín chỉ' },
-  { id: 3, icon: 'CalendarDays', label: 'Thời khóa biểu' },
-  { id: 4, icon: 'Users', label: 'Hoạt động đoàn thể' },
-  { id: 5, icon: 'CalendarFold', label: 'Lịch cá nhân', type: 'navigate', navigateTo: 'CalendarUser' },
-  { id: 6, icon: 'FileSearch', label: 'Tra cứu tài liệu' },
-];
+import HocPhi from "../components/screenComponent/tienich/HocPhi";
+import LichCanhan from "../components/screenComponent/tienich/LichCanhan";
 
 const notifications = [
   {
@@ -86,6 +79,24 @@ export default function HomePage() {
 
   const [selectedDate, setSelectedDate] = useState('');
 
+  const menuItems = [
+    {
+      id: 1, icon: 'CreditCard', label: 'Học phí', type: 'dialog',
+      dialogItem: <HocPhi
+        showBaseDialog={showBaseDialog}
+        closeAllBaseDialogs={closeAllBaseDialogs}
+      />
+    },
+    { id: 2, icon: 'BookOpen', label: 'Đăng ký tín chỉ' },
+    { id: 3, icon: 'CalendarDays', label: 'Thời khóa biểu' },
+    { id: 4, icon: 'Users', label: 'Hoạt động đoàn thể' },
+    {
+      id: 5, icon: 'CalendarFold', label: 'Lịch cá nhân', type: 'dialog',
+      dialogItem: <LichCanhan />
+    },
+    { id: 6, icon: 'FileSearch', label: 'Tra cứu tài liệu' },
+  ];
+
   // Dữ liệu custom: ngày được đánh dấu và chọn
   const markedDates = {
     '2025-08-10': { marked: true, dotColor: 'red' },
@@ -120,6 +131,11 @@ export default function HomePage() {
     if (item.type === 'navigate') {
       closeAllBaseDialogs();
       navigation.navigate(item.navigateTo);
+    } if (item.type === 'dialog') {
+      showBaseDialog(
+        item.label,
+        item.dialogItem ? item.dialogItem : null
+      )
     }
   }
 
@@ -187,7 +203,7 @@ export default function HomePage() {
                           style={tw`p-2 rounded-lg`}>
                           <View style={tw`flex-row justify-center items-center gap-2`}>
                             <View>
-                              <LucideIcon icon={'IdCard'} color={COLORS.primary} size={30} strokeWidth={1.5} />
+                              <LucideIcon icon={'IdCard'} color={COLORS.primary} size={30} strokeWidth={1.25} />
                             </View>
 
                             <View style={tw`flex-1 text-[#333]`}>

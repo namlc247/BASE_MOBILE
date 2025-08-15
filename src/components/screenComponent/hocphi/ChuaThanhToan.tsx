@@ -29,12 +29,15 @@ const data = [
 
 interface ChuaThanhToanProps {
   goToTab: (index: number) => void;
+  showBaseDialog: (title: string, content: React.ReactNode) => void;
+  closeAllBaseDialogs: () => void;
 }
 
 const ChuaThanhToan: React.FC<ChuaThanhToanProps> = ({
-  goToTab
+  goToTab,
+  showBaseDialog,
+  closeAllBaseDialogs,
 }) => {
-  const { showBaseDialog, closeAllBaseDialogs } = useBaseDialog();
   const [selectedChips, setSelectedChips] = React.useState<any[]>([]);
   const [visibleQR, setVisibleQR] = useState(false);
 
@@ -75,7 +78,10 @@ const ChuaThanhToan: React.FC<ChuaThanhToanProps> = ({
       'Thanh toán',
       <PhuongThucThanhToan
         onSelectPhuongThuc={(phuongthuc: any) => {
-          handleShowXacNhanThanhToan(phuongthuc);
+          setTimeout(() => {
+            handleShowXacNhanThanhToan(phuongthuc);
+          }, 150);
+          // handleShowXacNhanThanhToan(phuongthuc);
         }}
       />
     );
@@ -88,7 +94,10 @@ const ChuaThanhToan: React.FC<ChuaThanhToanProps> = ({
         phuongthuc={phuongthuc}
         data={selectedHoadon}
         onConfirmThanhToan={(item: any) => {
-          handleShowQR(phuongthuc);
+          setTimeout(() => {
+            handleShowQR(phuongthuc);
+          }, 150);
+          // handleShowQR(phuongthuc);
         }}
       />
     );
@@ -227,7 +236,10 @@ const ChuaThanhToan: React.FC<ChuaThanhToanProps> = ({
               mode="contained"
               disabled={selectedItemId.length === 0}
               onPress={() => {
-                handleShowPhuongThucThanhToan();
+                setTimeout(() => {
+                  handleShowPhuongThucThanhToan();
+                }, 150);
+                // handleShowPhuongThucThanhToan();
               }}
             >
               <Text style={tw`uppercase text-white`}>Thanh toán</Text>

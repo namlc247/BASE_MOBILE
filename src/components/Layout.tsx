@@ -61,6 +61,7 @@ import { SignalService } from "../services/signal/signal.service";
 import BottomBar from "./BottomBar";
 import COLORS from "../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { LucideIcon } from "./LucideIcon";
 
 const menuData = [
   {
@@ -72,8 +73,8 @@ const menuData = [
 
 const menuNameData: { [key: string]: string } = {
   "Settings": "Cài đặt",
-  "CalendarUser": "Lịch cá nhân",
-  "HocPhi": "Học phí",
+  "Thongbao": "Thông báo",
+  "Tienich": "Tiện ích",
   "HomePage": "Trang chủ",
 };
 
@@ -348,7 +349,7 @@ const Layout = ({ children, isLoading = false }: LayoutProps) => {
         />
 
         {/* Main Content */}
-        <View style={tw`flex-1 bg-[${COLORS.backgroundColorGray}] pt-10`}>
+        <View style={tw`flex-1 bg-[${COLORS.backgroundColorGray}] pt-12`}>
           {/* <LinearGradient
         colors={['#d2e4d6', '#d7ece9', '#e4f1f5', '#f4f7fc', '#ffffff']}
         start={{ x: 0, y: 0 }} // to left bottom
@@ -364,10 +365,16 @@ const Layout = ({ children, isLoading = false }: LayoutProps) => {
               { zIndex: 0 }
             ]}
           />
-          <View style={tw`mb-4`}>
-            <Text style={tw`text-2xl font-bold text-[#fff] text-center`}>
-              {menuNameData[route.name as string]}
-            </Text>
+          <View style={tw`px-4 mb-4 flex-row items-center justify-center `}>
+            <View style={tw`flex-1`}></View>
+            <View style={tw`flex-4`}>
+              <Text style={tw`text-2xl font-bold text-[#fff] text-center`}>
+                {menuNameData[route.name as string]}
+              </Text>
+            </View>
+            <View style={tw`flex-1`}>
+              {/* <LucideIcon icon={'Bell'} color={COLORS.primary} size={26} strokeWidth={1.5} /> */}
+            </View>
           </View>
           <View style={tw`flex-1 pt-0`}>{children}</View>
           {/* </LinearGradient> */}

@@ -58,19 +58,19 @@ class WebSocketService {
 							})
 						);
 
-						this.pingInterval = setInterval(() => {
-							if (
-								this.socket &&
-								this.socket.readyState === WebSocket.OPEN
-							) {
-								this.socket.send(
-									JSON.stringify({ type: 'ping' })
-								);
-								// console.log(
-								// 	'Ping sent to keep connection alive'
-								// );
-							}
-						}, 10000);
+						// this.pingInterval = setInterval(() => {
+						// 	if (
+						// 		this.socket &&
+						// 		this.socket.readyState === WebSocket.OPEN
+						// 	) {
+						// 		this.socket.send(
+						// 			JSON.stringify({ type: 'ping' })
+						// 		);
+						// 		// console.log(
+						// 		// 	'Ping sent to keep connection alive'
+						// 		// );
+						// 	}
+						// }, 10000);
 
 						if (this.onSocketChangeCallback) {
 							this.onSocketChangeCallback(this.socket);
