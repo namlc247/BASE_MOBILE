@@ -6,36 +6,68 @@ import COLORS from '../../../constants/colors';
 import { LucideIcon } from '../../LucideIcon';
 import NumberUtil from '../../../utils/numberUtils';
 
+// const notifications = [
+//   {
+//     id: 1,
+//     day: '09',
+//     date: '08/2025',
+//     title: 'Thông báo danh sách trúng tuyển và kế hoạch nhập học cao học hệ dân sự năm 2025'
+//   },
+//   {
+//     id: 2,
+//     day: '08',
+//     date: '08/2025',
+//     title: 'Thông báo về việc tổ chức thi kết thúc học phần đợt học lại cho sinh viên dân sự trong Học kỳ hè năm học 2024-2025'
+//   },
+//   {
+//     id: 3,
+//     day: '07',
+//     date: '08/2025',
+//     title: 'Thông báo thi ngoại ngữ trình độ A1 A2 đợt tháng 08 năm 2025'
+//   },
+//   {
+//     id: 4,
+//     day: '07',
+//     date: '08/2025',
+//     title: 'Thông báo thi chuẩn đầu ra Ngoại ngữ (trình độ B1) cho học, viên sinh viên đợt tháng 8 năm 2025'
+//   },
+//   {
+//     id: 5,
+//     day: '30',
+//     date: '07/2025',
+//     title: 'Học viện A thông báo Quyết định công nhận tốt nghiệp cho sinh viên dân sự đợt xét tháng 6 năm 2025'
+//   },
+// ];
 const notifications = [
   {
     id: 1,
     day: '09',
     date: '08/2025',
-    title: 'Thông báo danh sách trúng tuyển và kế hoạch nhập học cao học hệ dân sự năm 2025'
+    title: 'Thông báo 1'
   },
   {
     id: 2,
     day: '08',
     date: '08/2025',
-    title: 'Thông báo về việc tổ chức thi kết thúc học phần đợt học lại cho sinh viên dân sự trong Học kỳ hè năm học 2024-2025'
+    title: 'Thông báo 2'
   },
   {
     id: 3,
     day: '07',
     date: '08/2025',
-    title: 'Thông báo thi ngoại ngữ trình độ A1 A2 đợt tháng 08 năm 2025'
+    title: 'Thông báo 3'
   },
   {
     id: 4,
     day: '07',
     date: '08/2025',
-    title: 'Thông báo thi chuẩn đầu ra Ngoại ngữ (trình độ B1) cho học, viên sinh viên đợt tháng 8 năm 2025'
+    title: 'Thông báo 4'
   },
   {
     id: 5,
     day: '30',
     date: '07/2025',
-    title: 'Học viện Kỹ thuật quân sự thông báo Quyết định công nhận tốt nghiệp cho sinh viên dân sự đợt xét tháng 6 năm 2025'
+    title: 'Học viện 5'
   },
 ];
 

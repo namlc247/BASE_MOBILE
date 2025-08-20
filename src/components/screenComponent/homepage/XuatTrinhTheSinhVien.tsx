@@ -32,7 +32,7 @@ const XuatTrinhTheSinhVien: React.FC<XuatTrinhTheSinhVienProps> = ({
 
           <View style={tw`flex-1 flex-col justify-center items-center`}>
             <Text style={tw`text-[#444] font-bold uppercase mb-0.5`}>
-              Học viện Kỹ thuật quân sự
+              Học viện A
             </Text>
             <Text style={tw`text-[#444] font-bold`}>
               Thẻ sinh viên
